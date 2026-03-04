@@ -5,6 +5,6 @@ namespace App\Enums;
 
 enum TermsUserTypesEnum: string
 {
-    case USER  = 'users-terms';
-    case PROVIDER      = 'providers-terms';
+    case INDIVIDUAL  = 'individual-terms';
+    case PROVIDER      = 'provider-terms';
 }

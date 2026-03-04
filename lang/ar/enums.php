@@ -1,12 +1,6 @@
 <?php
 
 return [
-    'dailyStatusEnum' => [
-        'NOT_STARTED' => 'لم يبدأ',
-        'IN_PROGRESS' => 'قيد التنفيذ',
-        'COMPLETED' => 'مكتمل',
-    ],
-
     'userProductOfferEnum' => [
         'new'      => 'عرض سعر جديد',
         'accepted' => 'تم قبول عرض السعر',
@@ -30,7 +24,18 @@ return [
         'status_details_half' => 'دفع نصف قيمة الطلب ، والنصف الآخر بعد الاستلام',
         'status_details_full' => 'دفع كامل قيمة الطلب',
     ],
+    'paymentTypeEnum' => [
+        'ONLINE' => 'إلكتروني',
+        'WALLET' => 'محفظة',
+        'CASH'   => 'دفع نقدي',
+        'BANK_TRANSFER'=>'حوالة بنكية',
+        'UNDEFINED'       => 'غير محدد',
 
+        'status_details_online' => 'دفع عبر الإنترنت',
+        'status_details_wallet' => 'دفع عبر المحفظة',
+        'status_details_cash'   => 'دفع نقدي',
+        'status_details_bank_transfer'   => 'حوالة بنكية',
+    ],
 
     'productPreparationTimeUnitEnum' => [
         'minute' => 'دقيقة',
@@ -198,17 +203,38 @@ return [
         'status_details_individual' => '',
         'status_details_company' => '',
     ],
-
-    "complaintStatusEnum"=>[
-        'new' => 'جديد',
-        'pending' => 'قيد المراجعة',
-        'replayed' => 'تم الرد',
-
-        'status_details_new' => '',
-        'status_details_pending' => '',
-        'status_details_replayed' => '',
+    "orderStatusEnum" => [
+        'NEW' => 'تم الشراء وارسال الطلب للمستلم',
+        'WAIT_APPROVE' => 'في انتظار تاكيد الموعد',
+        'FINISHED' => 'مؤكد',
+        'CANCELLED' => 'لم يتم التاكيد',
+    ],
+    'orderProviderStatusEnum' => [
+        'NEW' => 'جديد',
+        'WAIT_APPROVE' => 'في انتظار تاكيدك للوقت المحدد',
+        'FINISHED' => 'مؤكد',
+        'CANCELLED' => 'لم يتم التاكيد',
+    ],
+    'settlementStatusEnum' => [
+        'PENDING' => 'جديد',
+        'ACCEPTED' => 'منتهية',
+        'REJECTED' => 'مرفوضة',
     ],
 
+    "complaintStatusEnum"=>[
+        'New' => 'جديدة',
+        'Pending' => 'قيد المراجعة',
+        'Finished' => 'منتهية',
+
+        'status_details_New' => '',
+        'status_details_Pending' => '',
+        'status_details_Replayed' => '',
+    ],
+    "ComplaintTypesEnum"=>[
+        'Complaint' => 'شكوى',
+        'ContactUs' => 'رسالة تواصل',
+        'OrderComplaint' => 'شكوى علي طلب',
+    ],
     "orderOfferStatusEnum"=>[
         'new' => 'تم ارسال عرض سعر',
         'accepted' => 'تم قبول عرض سعر',
@@ -235,25 +261,6 @@ return [
         'status_details_rejected' => 'تم رفض طلب التسوية الخاص بك',
     ],
 
-    'orderStatusEnum' => [
-        'new' => 'جديد',
-        'negotiating' => 'قيد التفاوض',
-        'pay_pending' => 'قيد الدفع',
-        'current' => 'حالي',
-        'provider_finished' => 'تم الانتهاء من قبل مقدم الخدمة',
-        'finished' => 'مكتمل',
-        'cancel' => 'ملغي',
-
-//        'status_details_new' => 'تم إنشاء الطلب وجاري مراجعته',
-        'status_details_new' => 'جديد',
-
-        'status_details_negotiating' => 'جارٍ التفاوض مع مزود الخدمة',
-        'status_details_pay_pending' => 'يرجى إتمام عملية الدفع للمتابعة',
-        'status_details_current' => 'الطلب قيد التنفيذ',
-        'status_details_provider_finished' => 'أنهى مقدم الخدمة تنفيذ الطلب بانتظار تأكيد العميل',
-        'status_details_finished' => 'تم إنهاء الطلب بنجاح',
-        'status_details_cancel' => 'تم إلغاء الطلب',
-    ],
 
     'registerTypeEnum' => [
         'normal' => 'عادي',

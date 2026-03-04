@@ -10,18 +10,12 @@ Route::get('notifications', [
     'icon'      => '<i class="ficon feather icon-bell"></i>',
     'type'      => 'parent',
     'has_sub_route' => false,
-    'child'     => ['notifications.send', 'notifications.log'],
+    'child'     => ['notifications.send'],
 ]);
 
 Route::post('send-notifications', [
     'uses'  => $controller . '@sendNotifications',
     'as'    => 'notifications.send',
     'title' => 'notifications.send',
-]);
-
-Route::get('notifications/log', [
-    'uses'  => $controller . '@log',
-    'as'    => 'notifications.log',
-    'title' => 'notifications.log',
 ]);
     /*------------ end Of notifications ----------*/

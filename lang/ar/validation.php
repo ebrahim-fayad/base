@@ -94,7 +94,6 @@ return [
     'uploaded'             => 'فشل في تحميل الـ :attribute',
     'url'                  => 'صيغة الرابط :attribute غير صحيحة يجب ادخال http//:',
 
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -110,10 +109,6 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
-        'conditions' => [
-            'en' => 'الشروط بالانجليزية',
-            'ar' => 'الشروط بالعربية',
-        ],
     ],
 
     /*
@@ -128,12 +123,30 @@ return [
      */
 
     'attributes' => [
-        'conditions' => [
-            'en' => 'الشروط بالانجليزية',
-            'ar' => 'الشروط بالعربية',
-        ],
-        'stadium_id'                 => 'الملعب',
         'case_id'                    => 'رقم الحاله',
+        'commercial_image'           => 'صورة السجل التجاري',
+        'appointment_id'             => 'رقم الموعد',
+        'identity_numb'            => 'رقم الهوية',
+        'subject'                    => 'موضوع الشكوى',
+        'amount'                      => 'المبلغ',
+        'service_id'                 => 'الخدمة',
+        'cancel_reason'              => 'سبب الرفض',
+        'service_name'               => 'اسم الخدمة',
+        'service_description'        => 'وصف الخدمة',
+        'service_price'              => 'سعر الخدمة',
+        'service_image'              => 'صورة الخدمة',
+        'service_image_id'           => 'صورة الخدمة',
+        'payment_method'             => 'طريقة الدفع',
+        'payment_amount'             => 'مبلغ الدفع',
+        'payment_status'             => 'حالة الدفع',
+        'payment_date'               => 'تاريخ الدفع',
+        'payment_time'               => 'وقت الدفع',
+        'payment_notes'              => 'ملاحظات الدفع',
+        'type_service_id'            => 'نوع الخدمة',
+        'start_time'                 => 'وقت البدء',
+        'end_time'                   => 'وقت النهاية',
+        'total_beneficiaries'        => 'عدد المستفيدين',
+        'is_open'                    => 'حالة الافتتاح',
         'link'                       => ' الرابط ',
         'icon'                       => ' الايقونة ',
         'is_blocked'                 => ' حالة الحظر ',
@@ -152,7 +165,6 @@ return [
         'last_name'                  => 'اسم العائلة',
         'password'                   => 'كلمة السر',
         'password_confirmation'      => 'تأكيد كلمة السر',
-        'current_password'           => 'كلمة السر الحالية',
         'city'                       => 'المدينة',
         'city_id'                    => 'المدينة',
         'quarter_id'                 => 'لحي السكني',
@@ -160,12 +172,9 @@ return [
         'national_id_image'          => 'صوره اثبات الهويه',
         'country'                    => 'الدولة',
         'address'                    => 'العنوان',
-        'phone'                      => 'الجوال',
+        'phone'                      => 'الهاتف',
         'mobile'                     => 'الجوال',
         'age'                        => 'العمر',
-        'weight'                     => 'الوزن',
-        'height'                     => 'الطول',
-        'waist_circumference'        => 'محيط الخصر',
         'sex'                        => 'الجنس',
         'gender'                     => 'النوع',
         'day'                        => 'اليوم',
@@ -205,19 +214,15 @@ return [
         'sms_message'                => 'نص الرساله',
         'email_message'              => 'نص الرساله',
         'avatar'                     => 'الصوره',
-        'price'                      => 'القطة',
+        'price'                      => 'السعر',
         'ar_description'             => 'الوصف',
         'en_description'             => 'الوصف بالانجليزية',
         'ar_name'                    => 'الاسم',
         'en_name'                    => 'الاسم بالانجليزية',
         'discount'                   => 'نسبة الخصم',
         'keyword'                    => ' كلمة البحث ',
-        'level_id'                   => 'المستوى',
-        'level'                      => 'المستوى',
-        'already_subscribed'         => 'الاشتراك',
-        'previous_level_required'     => 'المستوى السابق',
         'nationality_id'             => 'لجنسيه',
-        'complaint'                  => 'الرسالة',
+        'complaint'                  => 'نص الشكوى',
         'expire'                     => 'تاريخ الانتهاء',
         'days'                       => 'عدد الايام',
         'url'                        => 'الرابط',
@@ -246,8 +251,6 @@ return [
         'title_en'                   => 'العنوان بالانجليزيه',
         'reason_id'                  => 'السبب',
         'code'                       => 'كود التفعيل',
-        'code_expire'                => 'انتهاء صلاحية الكود',
-        'is_notify'                  => 'حالة الإشعارات',
         'sender_name'                => 'اسم المرسل',
         'user_name'                  => 'اسم المستخدم',
         'country_code'               => 'كود الدولة',
@@ -352,15 +355,5 @@ return [
         'commercial_number'            => 'رقم السجل التجاري',
         'bio.*'                        => 'السيرة الذاتية',
         'bio'                          => 'السيرة الذاتية',
-        'game_id'                      => 'المباراة',
-        'order_id'                     => 'الطلب',
-        'game_id_or_order_id'          => 'المباراة أو الطلب',
-        'guest'                        => 'الضيف',
-        'guest.*'                      => 'بيانات الضيف',
-        // Meal
-        'meal_type_id'                 => 'نوع الوجبة',
-        'meal_item_component'          => 'صنف الوجبة',
-        'quantity_grams_component'     => 'الكمية بالجرام',
     ],
-
 ];

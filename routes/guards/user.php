@@ -1,83 +1,70 @@
 <?php
 
+use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\CategoryController;
+use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\User\Home\HomeController;
+use App\Http\Controllers\Api\User\ServiceController;
+use App\Http\Controllers\Api\User\Orders\OrderController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\User\Auth\AuthController;
-use App\Http\Controllers\Api\User\HomeController;
-use App\Http\Controllers\Api\User\Meals\MealLogController;
-use App\Http\Controllers\Api\User\Auth\ProfileController;
-use App\Http\Controllers\Api\User\Meals\MealItemController;
-use App\Http\Controllers\Api\User\Meals\MealTypeController;
-use App\Http\Controllers\Api\User\Exercises\ProgramLevelController;
-use App\Http\Controllers\Api\User\Auth\ForgetPasswordController;
-use App\Http\Controllers\Api\User\Exercises\MyPlanController;
-use App\Http\Controllers\Api\User\IncentivePoints\IncentivePointsController;
 
 Route::group(['middleware' => ['guest:sanctum']], function () {
     // Routes here
-    Route::group(['controller' => AuthController::class], function () {
+    Route::group([ 'controller' => AuthController::class], function () {
         Route::post('login', 'login');
-        Route::post('register', 'register');
-        Route::post('complete-data', 'completeData');
         Route::post('resend-code', 'resendCode');
-        Route::post('check-code', 'activate');
-    });
-
-    Route::group(['controller' => ForgetPasswordController::class], function () {
-        Route::post('forget-password-send-code',        'forgetPasswordSendCode');
-        Route::post('forget-password-check-code',       'forgetPasswordCheckCode');
-        Route::post('reset-password',                   'resetPassword');
-        Route::post('re-send-code',                     'forgetPasswordSendCode');
+        Route::post('activate', 'activate');
+        Route::post('register', 'register');
+        Route::post('check-code', 'checkCode');
     });
 });
 
-Route::group(['middleware' => ['OptionalSanctumMiddleware']], function () {
-    Route::get('home', [HomeController::class, 'index']);
-    Route::get('meal-items', [MealItemController::class, 'index']);
+Route::group(['middleware' => ['OptionalSanctumMiddleware',]], function () {
+    Route::controller(HomeController::class)->group(function () {
+        Route::get('home', 'index');
+        Route::post('home-filter', 'homeFilter');
+        Route::get('providers', 'getProviders');
+        Route::get('categories', 'categories');
+        Route::get('type-services', 'typeServices');
+        Route::get('services', 'services');
+        Route::get('partners', 'partners');
+    });
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('type-services/{parent_id}', 'getTypeServicesByMainCategory');
+    });
+    Route::controller(ServiceController::class)->group(function () {
+        Route::get('services/{type_service_id}', 'getServicesByTypeService');
+        Route::get('services/type-audience/{type_audience_id}', 'getServicesByTypeAudience');
+        Route::get('services/show/{service_id}', 'show');
+    });
 });
 
 Route::group(['middleware' => ['auth:user', 'is_blocked']], function () {
-
-    Route::group(['controller' => ProfileController::class], function () {
-        Route::prefix('profile')->group(function () {
-            Route::get('/', 'profile');
-            Route::patch('/update', 'update');
-        });
-        Route::post('change-password',  'changePassword');
-
-        // update phone
-        Route::group(['controller' => ProfileController::class, 'prefix' => 'change-phone'], function () {
-            Route::post('send-code',                    'changePhoneSendCode');
-            Route::post('new-phone-send-code',          'newPhoneSendCode');
-            Route::post('check-code',                   'verifyCode');
-        });
-    });
-
+    // Routes here
     Route::controller(AuthController::class)->group(function () {
         Route::post('delete-account', 'deleteAccount');
         Route::post('logout', 'logout');
     });
-
-    Route::group(['controller' => ProgramLevelController::class], function () { // Exercises
-        Route::get('program-levels', 'index');
-        Route::get('program-levels/{id}/show', 'show');
-        Route::post('program-levels/{id}/subscribe', 'subscribe');
-    });
-
-    Route::group(['controller' => MyPlanController::class, 'prefix' => 'my-plans'], function () { // My-Plans
-        Route::get('/', 'index');
-        Route::get('/{id}/show', 'show');
-        Route::post('/exercise-completion-rate', 'completionRate');
-    });
-
-    Route::get('incentive-points', [IncentivePointsController::class, 'index']);
-
-    Route::prefix('meals')->group(function () {
-        Route::get('types', [MealTypeController::class, 'index']);
-        Route::get('items', [MealItemController::class, 'index']);
-
-        Route::group(['controller' => MealLogController::class, 'prefix' => 'macros'], function () {
-            Route::get('/', 'index');
-            Route::post('/', 'store');
+    Route::group(['controller' => ProfileController::class], function () {
+        Route::prefix('profile')->group(function () {
+            Route::get('/', 'profile');
+            Route::patch('update', 'update');
         });
+        Route::prefix('change-phone')->group(function () {
+            Route::post('send-code', 'changePhoneSendCode');
+            Route::post('check-code', 'verifyCode');
+            Route::post('new-phone-send-code', 'newPhoneSendCode');
+         });
+    });
+    Route::group(['prefix' => 'orders','controller' => OrderController::class], function () {
+        Route::get('/{type}', 'index');
+        Route::post('/create-order', 'store');
+        Route::get('/show/{order_id}', 'show');
+        Route::post('/order-summary', 'orderSummary');
+        Route::post('/order-complaint/{order_id}', 'orderComplaint');
+    });
+
+    Route::middleware('MustCompleteData')->group(function () {
+
     });
 });

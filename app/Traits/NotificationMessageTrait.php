@@ -25,9 +25,6 @@ trait NotificationMessageTrait
         if (isset($notification_data['order_num'])) {
             $transData['order_num'] = $notification_data['order_num'];
         }
-        if (isset($notification_data['request_num'])) {
-            $transData['request_num'] = $notification_data['request_num'];
-        }
 
         if (isset($notification_data['amount'])) {
             $transData['amount'] = $notification_data['amount'];
@@ -41,6 +38,12 @@ trait NotificationMessageTrait
 
         if (isset($notification_data['addition_type'])) {
             $transData['addition_type'] = $notification_data['addition_type'];
+        }
+        if (isset($notification_data['order_num'])) {
+            $transData['order_num'] = $notification_data['order_num'];
+        }
+        if (isset($notification_data['complaint_num'])) {
+            $transData['complaint_num'] = $notification_data['complaint_num'];
         }
 
         $msg = trans('notification.body_' . $notification_data['type'], $transData, $local);

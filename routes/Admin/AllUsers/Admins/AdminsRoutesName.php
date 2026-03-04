@@ -20,6 +20,7 @@ class AdminsRoutesName
             'admins.notifications.delete',
             'admins.show',
             'admins.block',
+            'admins.notifications.translate',
         ];
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Services\CountryCities;
 
+use App\Models\Country;
 use App\Models\AllUsers\User;
 use App\Services\Core\BaseService;
-use App\Models\CountryCity\Country;
 use Illuminate\Support\Facades\File;
 
 class CountryService extends BaseService
@@ -47,13 +47,13 @@ class CountryService extends BaseService
         ];
 
         $countryCode = $countryToCode[$countryName] ?? null;
-
+        
         if (!$countryCode) {
             return null;
         }
 
         $flags = $this->getFlags();
-
+        
         // Look for flag file matching the country code (case-insensitive)
         foreach ($flags as $flag) {
             $flagName = strtolower(pathinfo($flag, PATHINFO_FILENAME));
@@ -65,7 +65,7 @@ class CountryService extends BaseService
         return null;
     }
 
-    public function delete(int $id, array $relationsToCheck = [], array $conditions = [],array $relationConditions = []): array
+    public function delete(int $id, array $relationsToCheck = [], array $conditions = [], array $relationConditions = [], array $relationMessages = []): array
     {
         $country = $this->model::find($id);
 
@@ -79,7 +79,7 @@ class CountryService extends BaseService
         return ['key' => 'success', 'msg' => __('admin.deleted_successfully')];
     }
 
-    public function deleteAll($request, array $relationsToCheck = []): array
+    public function deleteAll($request, array $relationsToCheck = [], array $conditions = [], array $relationConditions = [], array $relationMessages = []): array
     {
         $requestIds = json_decode($request['data']);
         $has_users = false;

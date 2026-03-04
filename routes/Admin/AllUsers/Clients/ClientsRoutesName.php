@@ -19,7 +19,6 @@ class ClientsRoutesName
             'clients.edit',
             'clients.block',
             'clients.updateBalance',
-            'clients.updateNutritional',
         ];
     }
 }

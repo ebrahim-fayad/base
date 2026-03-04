@@ -2,6 +2,8 @@
 
 namespace App\Traits\BaseService;
 
+use App\Enums\WalletTransactionEnum;
+use App\Services\Core\WalletService;
 use Illuminate\Database\Eloquent\Model;
 
 trait RelationTrait
@@ -82,6 +84,36 @@ trait RelationTrait
         } catch (\Exception $e) {
             // Handle any exceptions (e.g., database errors)
             return ['key' => 'error', 'msg' => __('apis.error_creating_relation'), 'error' => $e->getMessage()];
+        }
+    }
+    public function updateBalance(int $id, float $balance, int $type): array
+    {
+        try {
+            $walletService = new WalletService();
+            $user = $this->find($id);
+
+            if ($balance <= 0) {
+                return ['key' => 'fail', 'msg' => __('admin.invalid_balance'), 'balance' => $user->balance];
+            }
+
+            if ($type === 0) {
+                $walletService->charge($user->wallet, $balance, $user);
+            } else {
+                if ($user->wallet?->balance < $balance) {
+                    return ['key' => 'fail', 'msg' => __('admin.balance_not_enough'), 'balance' => $user->wallet?->balance];
+                }
+                // $walletService->debt($user->wallet, $balance);
+                $user->wallet->decrement('balance', $balance);
+                $user->wallet->decrement('available_balance', $balance);
+                $user->wallet->transactions()->create([
+                    'type' => WalletTransactionEnum::DEBT->value,
+                    'amount' => $balance
+                ]);
+            }
+
+            return ['key' => 'success', 'msg' => __('admin.balance_updated'), 'balance' => $user->wallet?->balance];
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
         }
     }
 }

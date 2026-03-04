@@ -87,14 +87,6 @@ Route::post(
     ]
 );
 Route::post(
-    'admins/clients/update-nutritional/{id}',
-    [
-        'uses'  => $controller . '@updateNutritional',
-        'as'    => 'clients.updateNutritional',
-        'title' => 'users.update_nutritional',
-    ]
-);
-Route::post(
     'admins/clients/block-user',
     [
         'uses'  => $controller . '@block',

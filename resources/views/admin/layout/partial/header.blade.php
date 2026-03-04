@@ -11,9 +11,8 @@
         content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @php $settings = Cache::get('settings') ?? []; @endphp
-    <link rel="apple-touch-icon" href="{{ ($settings['fav_icon'] ?? '/storage/images/settings/fav_icon.png') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ ($settings['fav_icon'] ?? '/storage/images/settings/fav_icon.png') }}">
+    <link rel="apple-touch-icon" href="{{ Cache::get('settings')['fav_icon'] }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ Cache::get('settings')['fav_icon'] }}">
 
     <title>
         @yield('title', isset(\Request::route()->getAction()['title']) ? __('routes.' . \Request::route()->getAction()['title']) : '')
@@ -86,6 +85,9 @@
 <body style="font-family: 'Cairo', sans-serif !important;font-weight:700;" id="content_body"
     class="position-relative vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static"
     data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+     <audio class="d-none" controls="" id="soundNotify">
+        <source src="{{ asset(Cache::get('settings')['notification_sound']) }}" type="audio/ogg">
+    </audio>
     {{-- loader --}}
     <div class="loader">
         <div class="sk-chase">

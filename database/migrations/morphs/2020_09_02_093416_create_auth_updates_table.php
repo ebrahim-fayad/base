@@ -20,6 +20,7 @@ class CreateAuthUpdatesTable extends Migration
             $table->string('attribute')->nullable();
             $table->string('country_code')->nullable();
             $table->string('code')->nullable();
+            $table->timestamp('code_expire')->nullable();
             $table->morphs('updatable');
             $table->timestamps();
         });

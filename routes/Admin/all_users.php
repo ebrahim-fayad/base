@@ -5,6 +5,7 @@ use Routes\Admin\AllUsers\{
     Clients\ClientsRoutesName
 };
 use Illuminate\Support\Facades\Route;
+use Routes\Admin\AllUsers\Providers\ProvidersRoutesName;
 
 Route::get('all-users', [
     'as'            => 'all_users',
@@ -13,8 +14,9 @@ Route::get('all-users', [
     'type'          => 'parent',
     'has_sub_route' => true,
     'child'         => array_merge(
-    ClientsRoutesName::getNames(),  AdminsRoutesName::getNames()
+    ClientsRoutesName::getNames() , ProvidersRoutesName::getNames() ,  AdminsRoutesName::getNames() 
     )
 ]);
 require __DIR__ . '/AllUsers/Clients/routes-links.php';
+require __DIR__ . '/AllUsers/Providers/routes-links.php';
 require __DIR__ . '/AllUsers/Admins/routes-links.php';

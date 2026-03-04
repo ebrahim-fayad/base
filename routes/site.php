@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Site\Appointment\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Site\IntroController;
 use App\Services\PaymentGateway\PaymentService;
@@ -12,7 +13,10 @@ Route::get('/delete-account-page', [IntroController::class, 'deleteAccount'])->n
 Route::post('/send-message', [IntroController::class, 'sendMessage']);
 Route::get('/lang/{lang}', [IntroController::class, 'SetLanguage']);
 
-
+Route::controller(ReservationController::class)->group(function () {
+    Route::get('/reservation/{order}', 'index')->name('reservation');
+    Route::post('/reservation/update/{order}', 'updateDateTime')->name('reservation.update');
+ });
 Route::get(
     '/hyper-pay-form/{transaction_id}/{brand_id}/{brand_type}',
     [PaymentController::class, 'getHyperPay']

@@ -1,12 +1,6 @@
 <?php
 
 return [
-    'dailyStatusEnum' => [
-        'NOT_STARTED' => 'Not started',
-        'IN_PROGRESS' => 'In progress',
-        'COMPLETED' => 'Completed',
-    ],
-
     'userProductOfferEnum' => [
         'new' => 'New Offer',
         'accepted' => 'Your Offer Accepted',
@@ -37,6 +31,23 @@ return [
 
         'status_details_half' => 'Pay half of the order and another half after receiving the order',
         'status_details_full' => 'Pay the full amount of the order before delivery',
+    ],
+    'paymentTypeEnum' => [
+        'ONLINE' => 'Online',
+        'WALLET' => 'Wallet',
+        'CASH'   => 'Cash',
+        'BANK_TRANSFER'=>'Bank Transfer',
+        'UNDEFINED'       => 'Not Specified',
+
+        'status_details_online' => 'Pay online',
+        'status_details_wallet' => 'Pay through wallet',
+        'status_details_cash'   => 'Pay cash',
+        'status_details_bank_transfer'   => 'Pay through bank transfer',
+    ],
+    'ComplaintTypesEnum'=>[
+        'Complaint' => 'Complaint',
+        'ContactUs' => 'Contact Us',
+        'OrderComplaint' => 'Order Complaint',
     ],
     'orderPayTypeEnum' => [
         '' => 'Not Specified',
@@ -175,13 +186,13 @@ return [
         'status_details_company' => '',
     ],
     "complaintStatusEnum"=>[
-        'new' => 'New',
-        'pending' => 'Pending',
-        'replayed' => 'Replayed',
+        'New' => 'New',
+        'Pending' => 'Pending',
+        'Finished' => 'Finished',
 
-        'status_details_new' => '',
-        'status_details_pending' => '',
-        'status_details_replayed' => '',
+        'status_details_New' => '',
+        'status_details_Pending' => '',
+        'status_details_Finished' => '',
     ],
     "orderOfferStatusEnum"=>[
         'new' => 'New offer sent',
@@ -210,13 +221,11 @@ return [
     ],
 
     'orderStatusEnum' => [
-        'new' => 'New',
-        'negotiating' => 'Negotiating',
+        'NEW' => 'Order created and sent to the recipient',
+        'WAIT_APPROVE' => 'Waiting for approval',
         'pay_Pending' => 'Payment Pending',
-        'current' => 'Current',
-        'provider_finished' => 'Completed by Provider',
-        'finished' => 'Completed',
-        'cancel' => 'Canceled',
+        'FINISHED' => 'Confirmed',
+        'CANCELLED' => 'Not confirmed',
 
 //        'status_details_new' => 'Your order has been created and is under review.',
         'status_details_new' => 'New',
@@ -227,6 +236,17 @@ return [
         'status_details_provider_finished' => 'The provider has completed the order. Waiting for your confirmation.',
         'status_details_finished' => 'Your order has been successfully completed.',
         'status_details_cancel' => 'The order has been canceled.',
+    ],
+    'orderProviderStatusEnum' => [
+        'NEW' => 'New',
+        'WAIT_APPROVE' => 'Waiting for your approval',
+        'FINISHED' => 'Confirmed',
+        'CANCELLED' => 'Not confirmed',
+    ],
+    'settlementStatusEnum' => [
+        'PENDING' => 'New',
+        'ACCEPTED' => 'Accepted',
+        'REJECTED' => 'Rejected',
     ],
     'registerTypeEnum' => [
         'normal' => 'Normal',

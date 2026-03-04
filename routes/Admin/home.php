@@ -5,10 +5,10 @@ use Illuminate\Support\Facades\Route;
 /*------------ start Of Home----------*/
 
 Route::get('dashboard', [
-    'uses'         => 'HomeController@dashboard',
-    'as'           => 'dashboard',
-    'icon'         => '<i class="feather icon-home"></i>',
-    'title'        => 'main_page',
+    'uses'      => 'HomeController@dashboard',
+    'as'        => 'dashboard',
+    'icon'      => '<i class="feather icon-home"></i>',
+    'title'     => 'main_page',
     'has_sub_route' => false,
 ])->middleware('auth:admin');
 

@@ -29,7 +29,7 @@
 <script src="{{ asset('admin/app-assets/js/scripts/forms/select/form-select2.js') }}"></script>
 <script src="{{ asset('admin/main.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
-
+<x-admin.firebase authType="admin" />
 <script>
     $(document).ready(function() {
         $(".country-code").select2({
@@ -93,6 +93,44 @@
     });
 
 </script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
+{{-- <script>
+    const firebaseConfig = {
+        apiKey: "{{ env('FB_API_KEY') }}",
+        authDomain: "{{ env('FB_AUTH_DOMAIN') }}",
+        projectId: "{{ env('FIREBASE_PROJECT_ID') }}",
+        storageBucket: "{{ env('FB_STORAGE_BUCKET') }}",
+        messagingSenderId: "{{ env('FB_MESSAGING_SENDER_ID') }}",
+        appId: "{{ env('FB_APP_ID') }}",
+    };
+
+    // Init Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Init Messaging
+    const messaging = firebase.messaging();
+
+
+    Notification.requestPermission().then((permission) => {
+
+
+        if (permission === "granted") {
+
+            messaging.getToken({
+                vapidKey: "{{ env('FB_VAPID_KEY') }}"
+
+
+            }).then((token) => {
+
+                document.getElementById("device_id").value = token;
+            });
+        } else {
+            console.log("Notification permission denied.");
+        }
+    });
+
+</script> --}}
 <x-admin.alert />
 {{-- <x-socket /> --}}
 

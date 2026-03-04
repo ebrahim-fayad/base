@@ -10,3 +10,9 @@ Route::group(['prefix' => 'general'], function () {
 Route::group(['prefix' => 'user'], function () {
     require __DIR__ . '/guards/user.php';
 });
+
+Route::group(['prefix' => 'provider'], function () {
+    require __DIR__ . '/guards/provider.php';
+});
+
+

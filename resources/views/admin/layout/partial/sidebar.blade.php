@@ -3,8 +3,7 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item mr-auto">
                 <a class="navbar-brand" href="{{ url('admin/dashboard') }}">
-                    @php $settings = Cache::get('settings') ?? []; @endphp
-<img class="brand-logo img-logo w-auto" src="{{ ($settings['logo'] ?? '/storage/images/settings/logo.png') }}" alt="">
+                    <img class="brand-logo img-logo w-auto" src="{{ Cache::get('settings')['logo'] }}" alt="">
                 </a>
             </li>
         </ul>

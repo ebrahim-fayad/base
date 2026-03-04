@@ -204,19 +204,9 @@ return [
     'name_ar' => 'Name in Arabic' ,
     'name_en' => 'Name in English' ,
     'hi'                      => 'Welcome To Admin Panel',
-    'stadium_name' => [
-        'ar' => 'Stadium Name in Arabic',
-        'en' => 'Stadium Name in English',
-    ],
-    'conditions' => [
-        'ar' => 'Conditions in Arabic',
-        'en' => 'Conditions in English',
-    ],
-    'map_desc' => 'Map Description',
-    'fqs_category'=>[
-        'ar'=>'FQS Category in Arabic',
-        'en'=>'FQS Category in English',
-    ],
-    'category_name_ar' => 'Category Name in Arabic',
-    'category_name_en' => 'Category Name in English',
+    'Payment_Complete'        => 'Payment completed successfully',
+    'Payment_Failed'          => 'Payment failed',
+    'pay_success_msg'         => 'Your payment was completed successfully. Thank you!',
+    'pay_fail_msg'            => 'Your payment could not be completed. Please try again.',
+    'Thank_You'               => 'Thank you!',
 ];

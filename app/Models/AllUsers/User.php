@@ -2,16 +2,17 @@
 
 namespace App\Models\AllUsers;
 
-use App\Observers\UserObserver;
 use App\Models\Core\AuthBaseModel;
-use App\Traits\Admin\Users\RelationsTrait;
+use App\Observers\UserObserver;
+use App\Traits\Users\RelationsTrait;
+use App\Traits\Users\SettersGettersTrait;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 #[ObservedBy([UserObserver::class])]
 
 class User extends AuthBaseModel
 {
-    use RelationsTrait;
+    use RelationsTrait,SettersGettersTrait;
     const IMAGEPATH = 'users';
 
     protected $fillable = [

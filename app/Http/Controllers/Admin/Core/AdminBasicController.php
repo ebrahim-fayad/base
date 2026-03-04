@@ -13,7 +13,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
 
-class AdminBasicController extends Controller
+class
+AdminBasicController extends Controller
 {
     use ReportTrait;
 
@@ -32,7 +33,8 @@ class AdminBasicController extends Controller
         protected array  $showCompactVariables = [],
         protected array  $destroyOneConditions = [],
         protected array  $destroyRelationsToCheck = [],
-        protected array  $relationsConditions = []
+        protected array  $relationsConditions = [],
+        protected array  $destroyRelationMessages = []
     ) {}
 
     protected function modelName(): string
@@ -120,7 +122,8 @@ class AdminBasicController extends Controller
             id: $id,
             relationsToCheck: $this->destroyRelationsToCheck ?? [],
             conditions: $this->destroyOneConditions ?? [],
-            relationConditions: $this->relationsConditions ?? []
+            relationConditions: $this->relationsConditions ?? [],
+            relationMessages: $this->destroyRelationMessages ?? []
         );
         $this->addToLog('  حذف ' . $this->getClassNameTranslated());
         return response()->json(['key' => $result['key'], 'msg' => $result['msg']]);
@@ -129,7 +132,7 @@ class AdminBasicController extends Controller
     public function destroyAll(Request $request): JsonResponse
     {
         $result = $this->serviceName->deleteMultiple(request: $request, relationsToCheck: $this->destroyRelationsToCheck
-            ?? [], relationConditions: $this->relationsConditions ?? []);
+            ?? [], relationConditions: $this->relationsConditions ?? [], relationMessages: $this->destroyRelationMessages ?? []);
         $this->addToLog('  حذف العديد من  ' . $this->getClassNameTranslated());
         return response()->json(['key' => $result['key'], 'msg' => $result['msg']]);
     }

@@ -39,8 +39,9 @@ trait CrudTrait
      * @param array $relationsToCheck An array of relations to check for existence.
      * @return array Returns an array with a 'key' and 'msg' indicating the result.
      */
-    public function delete(int $id, array $relationsToCheck = [], array $conditions = [], array $relationConditions = []): array
+    public function delete(int $id, array $relationsToCheck = [], array $conditions = [], array $relationConditions = [], array $relationMessages = []): array
     {
+
         try {
             // Find the record or fail
             $record = $this->find(id: $id, conditions: $conditions);
@@ -49,7 +50,9 @@ trait CrudTrait
             foreach ($relationsToCheck as $relation) {
                 $conditionsOfRelation = $relationConditions[$relation] ?? [];
                 if ($record->$relation()->where($conditionsOfRelation)->exists()) {
-                    return ['key' => 'error', 'msg' => __('admin.record_has_related_data_and_cannot_be_deleted')];
+                    // Use custom message for this relation if provided, otherwise use default message
+                    $messageKey = $relationMessages[$relation] ?? 'admin.record_has_related_data_and_cannot_be_deleted';
+                    return ['key' => 'error', 'msg' => __($messageKey)];
                 }
             }
 
@@ -62,13 +65,14 @@ trait CrudTrait
         }
     }
 
-    public function deleteMultiple($request, array $relationsToCheck = [], array $conditions = [], array $relationConditions = []): array
+    public function deleteMultiple($request, array $relationsToCheck = [], array $conditions = [], array $relationConditions = [], array $relationMessages = []): array
     {
         try {
             $requestIds = json_decode($request['data'], true);
 
             // Initialize a flag to track if any record has related data
             $hasRelatedData = false;
+            $firstRelationFound = null;
 
             // Loop through each ID
             foreach (array_column($requestIds, 'id') as $id) {
@@ -80,12 +84,22 @@ trait CrudTrait
                     $conditionsOfRelation = $relationConditions[$relation] ?? [];
                     if ($record->$relation()->where($conditionsOfRelation)->exists()) {
                         $hasRelatedData = true;
+                        $firstRelationFound = $firstRelationFound ?? $relation;
                         break 2; // Exit both loops if related data is found
                     }
                 }
 
                 // If no related data exists, delete the record
                 $record->delete();
+            }
+
+            // Use custom message for the first relation found if provided
+            if ($hasRelatedData && $firstRelationFound) {
+                $messageKey = $relationMessages[$firstRelationFound] ?? 'admin.some_records_have_related_data_and_cannot_be_deleted';
+                return [
+                    'key' => 'warning',
+                    'msg' => __($messageKey)
+                ];
             }
 
             return [
@@ -97,6 +111,7 @@ trait CrudTrait
             throw new \Exception($e->getMessage());
         }
     }
+
 
     public function deleteWhere(array $conditions): int
     {
