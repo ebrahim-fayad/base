@@ -1,0 +1,411 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Wezna API",
+    "version": "1.0.0",
+    "description": "This OpenAPI specification documents the core REST API for the Wezna Platform. The endpoints are organized by modules (Auth, Profile, Home, Programs, Exercises, Meals, Plans, Notifications, More/Settings) and are intended to match the approved mobile application flow.\n\nBase URL: http://wezna-it.com/api/\nFigma (Mobile UI/UX): https://www.figma.com/proto/pgIBQH3Su5Xb3iAKL4JJaP/%D9%88%D9%8A%D8%B2%D9%86%D8%A7?node-id=3-60&t=yReMoaUbclm3ikrP-1&starting-point-node-id=3%3A60\nAdmin Dashboard: https://wezna-it.com/admin/login\nAdmin Credentials: admin@info.sa / 123456\n\nNotes:\n- Token-based authentication (e.g., Laravel Sanctum).\n- Keep controllers thin; business logic lives in services/logic layer.\n- This spec is a starter template and can be expanded to include every endpoint in the Postman collection."
+  },
+  "servers": [
+    {
+      "url": "http://wezna-it.com/api/",
+      "description": "Production API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication flows (register, login, logout, forgot password)."
+    },
+    {
+      "name": "Profile",
+      "description": "User profile and account settings."
+    },
+    {
+      "name": "Home",
+      "description": "Home/dashboard aggregated data."
+    },
+    {
+      "name": "Programs",
+      "description": "Programs catalog and details."
+    },
+    {
+      "name": "Exercises",
+      "description": "Program-level exercises."
+    },
+    {
+      "name": "Meals",
+      "description": "Meals catalog and nutrition details."
+    },
+    {
+      "name": "Plans",
+      "description": "User plans and progress."
+    },
+    {
+      "name": "Notifications",
+      "description": "User notifications and read status."
+    },
+    {
+      "name": "More",
+      "description": "Settings and static pages (terms/privacy/about)."
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Register",
+        "description": "Create a new user account.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registered successfully"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "description": "Authenticate user and return access token.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout",
+        "description": "Revoke the current access token.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logged out successfully"
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      }
+    },
+    "/forgot-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Forgot Password",
+        "description": "Request a password reset token/code (sent via email/SMS depending on configuration).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset instructions sent"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/reset-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Reset Password",
+        "description": "Reset password using token/code.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password reset successful"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/profile": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "Get Profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile data"
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "Update Profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile updated"
+          },
+          "401": {
+            "description": "Unauthenticated"
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "tags": [
+          "Home"
+        ],
+        "summary": "Home Data",
+        "description": "Return aggregated home/dashboard data for the authenticated user.",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Home payload"
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "tags": [
+          "Notifications"
+        ],
+        "summary": "List Notifications",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Notifications list"
+          },
+          "401": {
+            "description": "Unauthenticated"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token"
+      }
+    },
+    "schemas": {
+      "LoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          },
+          "device_name": {
+            "type": "string",
+            "example": "postman",
+            "nullable": true
+          }
+        }
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "john@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+201001234567",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          },
+          "password_confirmation": {
+            "type": "string",
+            "example": "123456",
+            "nullable": true
+          }
+        }
+      },
+      "ForgotPasswordRequest": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          }
+        }
+      },
+      "ResetPasswordRequest": {
+        "type": "object",
+        "required": [
+          "token",
+          "email",
+          "password"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "RESET_TOKEN_OR_OTP"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "new_password_123"
+          },
+          "password_confirmation": {
+            "type": "string",
+            "example": "new_password_123",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateProfileRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Updated Name",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "example": "+201001234567",
+            "nullable": true
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://cdn.example.com/avatar.png",
+            "nullable": true
+          }
+        }
+      }
+    }
+  }
+}
