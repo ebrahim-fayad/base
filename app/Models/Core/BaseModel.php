@@ -69,13 +69,7 @@ class BaseModel extends Model
         }
         return $image;
     }
-    public function getNotificationSoundAttribute()
-    {
-          if ($this->attributes['notification_sound'] != 'in.mp3' && $this->attributes['notification_sound'] != null) {
-            return $this->getNotificationSound($this->attributes['notification_sound'], 'sounds');
-        }
-        return $this->defaultNotificationSound();
-    }
+
     public function setImageAttribute($value)
     {
         if (null != $value && is_file($value)) {

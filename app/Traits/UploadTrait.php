@@ -183,9 +183,9 @@ trait UploadTrait
 
         return asset($relativePath);
     }
-    public function defaultNotificationSound()
+    public function defaultNotificationSound(): string
     {
-        return $this->getNotificationSound('in.mp3', 'sounds');
+        return asset('sound/in.mp3');
     }
 
     public static function getImage($name, $directory)
@@ -198,11 +198,15 @@ trait UploadTrait
     }
     public function getNotificationSound($name, $directory)
     {
-        $sound = asset("storage/images/$directory/$name");
-        if (!file_exists(public_path("storage/images/$directory/$name"))) {
-            $sound = asset('public/sounds/' . $name);
+        return 1111;
+        if (!$name) {
+            return $this->defaultNotificationSound();
         }
-        return $sound;
+        $storagePath = "storage/sounds/$directory/$name";
+        if (file_exists(public_path($storagePath))) {
+            return asset($storagePath);
+        }
+        // return $this->defaultNotificationSound();
     }
 
     public function gettingFileType($file, $isFile = false)

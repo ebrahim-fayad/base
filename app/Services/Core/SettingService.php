@@ -125,6 +125,11 @@ class SettingService
 
         foreach ($request->all() as $key => $val) {
             if ($key === 'notification_sound' && $request->hasFile('notification_sound')) {
+                $oldValue = SiteSetting::where('key', 'notification_sound')->value('value');
+                if ($oldValue && $oldValue !== 'in.mp3' && !str_ends_with(strtolower($oldValue), '/in.mp3')) {
+                    $this->deleteFile(basename($oldValue), 'sounds');
+                }
+
                 $file = $request->file('notification_sound');
                 $fileName = $this->uploadAllTypes($file, 'sounds');
 
@@ -228,8 +233,15 @@ class SettingService
 
     protected static function buildNotificationSoundPath(?string $name): ?string
     {
-        if (!$name) {
-            return null;
+        $name = $name ? trim($name) : null;
+        $isDefault = !$name
+            || $name === 'in.mp3'
+            || $name === 'storage/images/sounds/in.mp3'
+            || str_ends_with(strtolower($name), '/in.mp3');
+
+        // الصوت الافتراضي دائماً من public/sounds/
+        if ($isDefault) {
+            return 'sound/in.mp3';
         }
 
         $storageRelative = 'storage/images/sounds/' . $name;
@@ -237,7 +249,7 @@ class SettingService
             return $storageRelative;
         }
 
-        $publicRelative = 'public/sounds/' . $name;
+        $publicRelative = 'sounds/' . $name;
         if (file_exists(public_path($publicRelative))) {
             return $publicRelative;
         }
