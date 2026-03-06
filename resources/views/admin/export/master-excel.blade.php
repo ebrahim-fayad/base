@@ -11,21 +11,16 @@
                 </tr>
                 @if(!empty($records))
 
-                    @foreach($records as $index => $record)
+                    @foreach($records as $record)
                         <tr>
                             @foreach($values as $val)
-                            @if (Str::contains($val, '.') )
-                                    @php
-                                        $implodedArray = explode( '.' , $val ) ; 
-                                    @endphp
-                                    <td style="text-align: center">{{$record[$implodedArray[0]][$implodedArray[1]] }}</td>
-                                @else
-                                    @if($val == 'id')
-                                        <td style="text-align: center">{{$index + 1}}</td>
+                                <td style="text-align: center">
+                                    @if(!empty($image_columns) && isset($image_columns[$val]))
+                                        {{-- Leave empty for image columns - images are added via drawings --}}
                                     @else
-                                        <td style="text-align: center">{{$record->$val}}</td>
+                                        {{ data_get($record, $val) ?? __('admin.main_categories') }}
                                     @endif
-                                @endif
+                                </td>
                             @endforeach
                         </tr>
                     @endforeach

@@ -33,4 +33,35 @@ class Country extends BaseModel
     {
         return $this->hasMany(City::class);
     }
+
+    /**
+     * Default exportable columns configuration for Countries.
+     *
+     * @return array<int, array{label:string,value:string,default:bool}>
+     */
+    public static function exportColumns(): array
+    {
+        return [
+            [
+                'label' => '#',
+                'value' => 'id',
+                'default' => false,
+            ],
+            [
+                'label' => __('admin.name'),
+                'value' => 'name',
+                'default' => true,
+            ],
+            [
+                'label' => __('admin.country_code'),
+                'value' => 'key',
+                'default' => true,
+            ],
+            [
+                'label' => __('admin.image'),
+                'value' => 'flag',
+                'default' => true,
+            ],
+        ];
+    }
 }

@@ -7,6 +7,13 @@ use Database\Seeders\all_users\{
     AdminTableSeeder,
     UserTableSeeder,
 };
+use Database\Seeders\public_sections\{
+    ComplaintTableSeeder,
+    FqsTableSeeder,
+    ImageTableSeeder,
+    IntroTableSeeder,
+    CategorySeeder,
+};
 use Database\Seeders\landing_page\{
     IntroFqsCategoryTableSeeder,
     IntroFqsTableSeeder,
@@ -26,6 +33,7 @@ use Database\Seeders\public_settings\{
     SettingSeeder,
     SmsTableSeeder,
 };
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -50,5 +58,10 @@ class DatabaseSeeder extends Seeder
         $this->call(MealItemSeeder::class);
         $this->call(SmsTableSeeder::class);
         $this->call(PagesTableSeeder::class);
+        $this->call(ComplaintTableSeeder::class);
+        $this->call(FqsTableSeeder::class);
+        $this->call(ImageTableSeeder::class);
+        $this->call(IntroTableSeeder::class);
+        $this->call(CategorySeeder::class);
     }
 }
