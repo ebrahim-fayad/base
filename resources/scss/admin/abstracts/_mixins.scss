@@ -1,0 +1,50 @@
+@mixin focus-ring($color: var(--app-primary)) {
+    &:focus,
+    &:focus-visible {
+        outline: 0;
+        box-shadow: 0 0 0 0.24rem color-mix(in srgb, #ffffff 72%, #{$color});
+    }
+}
+
+@mixin card-surface($padding: 1.5rem) {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--app-surface) 92%, white) 0%, var(--app-surface) 100%);
+    border: 1px solid var(--app-border);
+    border-radius: 1.25rem;
+    box-shadow: 0 18px 48px color-mix(in srgb, var(--app-shadow-color) 32%, transparent);
+    padding: $padding;
+}
+
+@mixin glass-panel {
+    background: var(--app-shell-bg);
+    border: 1px solid var(--app-shell-border);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+@mixin scrollbars($thumb, $track: transparent) {
+    scrollbar-width: thin;
+    scrollbar-color: $thumb $track;
+
+    &::-webkit-scrollbar {
+        width: 0.55rem;
+        height: 0.55rem;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $track;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $thumb;
+        border-radius: 999px;
+    }
+}
+
+@mixin elevated-hover {
+    transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease, background-color 0.24s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 40px color-mix(in srgb, var(--app-shadow-color) 38%, transparent);
+    }
+}

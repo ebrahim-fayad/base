@@ -1,7 +1,7 @@
 <div class="sidenav-overlay"></div>
 <div class="drag-target"></div>
 
-<footer class="footer footer-static footer-light">
+<footer class="footer footer-light">
     <p class="clearfix blue-grey lighten-2 mb-0">
         <span class="float-md-left d-block d-md-inline-block mt-25">
             {{ __('admin.Copyrights') }} &copy; {{ \Carbon\Carbon::now()->year }}
@@ -42,7 +42,7 @@
             allowHtml: true,
             dropdownParent: $(".select-icon"),
             allowClear: false,
-            dir: "rtl",
+            dir: $('html').attr('dir') || "ltr",
         });
 
         $(document).on('keydown', function(e) {

@@ -1,0 +1,26 @@
+@use "../abstracts/variables" as *;
+
+@mixin emit-theme-vars($theme-map) {
+    @each $name, $value in $theme-map {
+        --app-#{$name}: #{$value};
+    }
+}
+
+:root {
+    @include emit-theme-vars($light-theme);
+    color-scheme: light;
+}
+
+html[data-theme="light"],
+body.light-mode,
+body[data-theme="light"] {
+    @include emit-theme-vars($light-theme);
+    color-scheme: light;
+}
+
+html[data-theme="dark"],
+body.dark-layout,
+body[data-theme="dark"] {
+    @include emit-theme-vars($dark-theme);
+    color-scheme: dark;
+}

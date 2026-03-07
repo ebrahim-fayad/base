@@ -49,6 +49,28 @@ class Provider extends AuthBaseModel
         'code'          => 'integer',
         'code_expire'   => 'datetime',
     ];
+    public function exportableColumns(): array
+    {
+        return [
+            'id' => '#',
+            'name' => __('admin.name'),
+            'phone' => __('admin.phone'),
+            'country_code' => __('admin.country_code'),
+            'image' => __('admin.image'),
+            'active' => __('admin.active'),
+            'is_blocked' => __('admin.is_blocked'),
+            'created_at' => __('admin.created_at'),
+        ];
+    }
+    public function getExportValue(string $column): mixed
+    {
+        return match ($column) {
+            'active' => $this->active ? __('admin.activate') : __('admin.dis_activate'),
+            'is_blocked' => $this->is_blocked ? __('admin.is_blocked') : __('admin.not_blocked'),
+            'is_notify' => $this->is_notify ? __('admin.activate') : __('admin.dis_activate'),
+            default => data_get($this, $column),
+        };
+    }
 
 
     public function scopeAvailable($query)

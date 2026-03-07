@@ -58,7 +58,7 @@ AdminBasicController extends Controller
 
         if (request()->ajax()) {
             $limitOptions = (new QueryOptions())
-                ->paginateNum(30)
+                ->paginateNum($this->paginateNum())
                 ->scopes($this->indexScopes ?? 'search')
                 ->conditions($this->indexConditions ?? [])
                 ->with($this->with ?? [])

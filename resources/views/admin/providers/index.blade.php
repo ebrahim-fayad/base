@@ -16,18 +16,15 @@
 
             <x-admin.buttons extrabuttons="true" addbutton="{{ route('admin.providers.create') }}"
                              deletebutton="{{ route('admin.providers.deleteAll') }}">
-                <x-slot name="extrabuttonsdiv">
+              <x-slot name="extrabuttonsdiv">
                     @if ($modelCount)
                         <a type="button" data-toggle="modal" data-target="#notify"
-                           class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light notify" data-type="providers"><i
+                            class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light notify" data-type="users"><i
                                 class="feather icon-bell"></i> {{ __('admin.Send_notification') }}</a>
 
-                        <a class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light" id="export-btn"
-                           href="{{ url(
-                                route('admin.master-export', [
-                                    'export' => App\Models\AllUsers\Provider::class,
-                                ]),
-                            ) }}"><i
+                        <a class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light export-btn" id="export-btn"
+                            data-export="{{ App\Models\AllUsers\Provider::class }}"
+                            href="{{ route('admin.master-export', ['model' => App\Models\AllUsers\Provider::class]) }}"><i
                                 class="fa fa-file-excel-o"></i>
                             {{ __('admin.export') }}</a>
                     @endif

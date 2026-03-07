@@ -4,6 +4,12 @@
             <li class="nav-item mr-auto">
                 <a class="navbar-brand" href="{{ url('admin/dashboard') }}">
                     <img class="brand-logo img-logo w-auto" src="{{ Cache::get('settings')['logo'] }}" alt="">
+                    <span class="brand-copy">
+                        <span class="brand-copy__title">{{ config('app.name') }}</span>
+                        <span class="brand-copy__meta">
+                            {{ lang() == 'ar' ? 'لوحة تحكم احترافية' : 'Premium admin workspace' }}
+                        </span>
+                    </span>
                 </a>
             </li>
         </ul>

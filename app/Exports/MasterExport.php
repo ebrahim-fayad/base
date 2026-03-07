@@ -76,7 +76,14 @@ class MasterExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
         }
 
         $sheet = $event->sheet->getDelegate();
-        $rowHeight = 80;
+        $rowHeight = 45;
+        $colWidthChars = 7;
+        $imageWidth = 36;
+        $imageHeight = 38;
+        $cellWidthPx = (int) ($colWidthChars * 7);
+        $cellHeightPx = (int) ($rowHeight * 1.33);
+        $offsetX = (int) max(2, ($cellWidthPx - $imageWidth) / 2);
+        $offsetY = (int) max(2, ($cellHeightPx - $imageHeight) / 2);
 
         foreach ($this->records as $index => $record) {
             $excelRow = $index + 2; // Row 1 = header
@@ -88,12 +95,17 @@ class MasterExport implements FromView, ShouldAutoSize, WithHeadings, WithEvents
                     continue;
                 }
 
+                $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex + 1);
+                $sheet->getColumnDimension($colLetter)->setWidth($colWidthChars);
+
                 $imageUrl = data_get($record, $valueKey);
                 $drawing = $this->createDrawing($imageUrl, $record, $imagePath, $valueKey);
                 if ($drawing) {
-                    $colLetter = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($colIndex + 1);
                     $drawing->setCoordinates($colLetter . $excelRow);
-                    $drawing->setHeight($rowHeight - 4);
+                    $drawing->setWidth($imageWidth);
+                    $drawing->setHeight($imageHeight);
+                    $drawing->setOffsetX($offsetX);
+                    $drawing->setOffsetY($offsetY);
                     $drawing->setWorksheet($sheet);
                 }
             }

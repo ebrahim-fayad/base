@@ -9,7 +9,7 @@
         <div class="content-header row">
         </div>
         <div class="content-body">
-            <section id="dashboard-ecommerce">
+            <section id="dashboard-ecommerce" class="dashboard-shell">
                 @yield('content')
             </section>
         </div>

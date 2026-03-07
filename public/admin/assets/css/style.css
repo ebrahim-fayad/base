@@ -2846,3 +2846,109 @@ p.info , span.info{
   color: black !important;
 }
 
+/* Premium Dashboard Spacing & Layout Fixes - Enhanced Specificity */
+body#content_body .app-content .content-wrapper {
+    padding: 1.75rem 1.5rem 2.5rem !important;
+    max-width: 1600px !important;
+    margin-inline: auto !important;
+}
+
+body#content_body .dashboard-page {
+    padding: 2rem 1.5rem 2rem !important;
+}
+
+body#content_body .dashboard-shell {
+    display: grid !important;
+    gap: 2rem !important;
+}
+
+body#content_body .metric-grid {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 1.75rem !important;
+}
+
+body#content_body .metric-grid__item {
+    grid-column: span 3 !important;
+}
+
+body#content_body .metric-grid .col-xl-3,
+body#content_body .metric-grid .col-lg-6,
+body#content_body .metric-grid .col-md-6,
+body#content_body .metric-grid .col-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Fix toolbar buttons spacing */
+body#content_body .admin-toolbar {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    justify-content: flex-end !important;
+    gap: 1rem !important;
+}
+
+body#content_body .admin-toolbar .btn {
+    margin: 0 !important;
+}
+
+/* Fix dashboard hero stats spacing */
+body#content_body .dashboard-hero__stats {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 1.25rem !important;
+    margin-top: 1.5rem !important;
+}
+
+body#content_body .dashboard-hero__stat {
+    padding: 1.25rem 1.35rem !important;
+    border-radius: 1rem !important;
+}
+
+/* Fix hero section spacing */
+body#content_body .dashboard-hero {
+    padding: 2rem 1.75rem !important;
+    margin-bottom: 2rem !important;
+}
+
+body#content_body .footer.footer-light {
+    position: relative !important;
+    margin-top: 2rem !important;
+    margin-inline: 1.25rem !important;
+}
+
+@media (max-width: 1399.98px) {
+    body#content_body .metric-grid__item {
+        grid-column: span 4 !important;
+    }
+}
+
+@media (max-width: 991.98px) {
+    body#content_body .content-wrapper {
+        padding: 1.5rem 1rem 2rem !important;
+    }
+    body#content_body .dashboard-page {
+        padding: 1.5rem 0.75rem 1.5rem !important;
+    }
+    body#content_body .metric-grid__item {
+        grid-column: span 6 !important;
+    }
+    body#content_body .dashboard-hero__stats {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 767.98px) {
+    body#content_body .content-wrapper {
+        padding: 1.25rem 0.75rem 1.5rem !important;
+    }
+    body#content_body .dashboard-page {
+        padding: 1rem 0.5rem 1rem !important;
+    }
+    body#content_body .metric-grid__item {
+        grid-column: span 12 !important;
+    }
+}
+
+
