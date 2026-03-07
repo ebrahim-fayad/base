@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\all_users\{
     AdminTableSeeder,
     UserTableSeeder,
+    ProviderTableSeeder,
 };
 use Database\Seeders\public_sections\{
     ComplaintTableSeeder,
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesTableSeeder::class);
         $this->call(PermissionTableSeeder::class);
         $this->call(UserTableSeeder::class);
+        $this->call(ProviderTableSeeder::class);
         $this->call(IntroHowWorkTableSeeder::class);
         $this->call(IntroSliderTableSeeder::class);
         $this->call(IntroServiceTableSeeder::class);
@@ -60,8 +62,8 @@ class DatabaseSeeder extends Seeder
         $this->call(PagesTableSeeder::class);
         $this->call(ComplaintTableSeeder::class);
         $this->call(FqsTableSeeder::class);
-        $this->call(ImageTableSeeder::class);
-        $this->call(IntroTableSeeder::class);
+        // $this->call(ImageTableSeeder::class);
+        // $this->call(IntroTableSeeder::class);
         $this->call(CategorySeeder::class);
     }
 }

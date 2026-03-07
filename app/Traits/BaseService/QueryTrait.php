@@ -2,9 +2,7 @@
 
 namespace App\Traits\BaseService;
 
-use Illuminate\Http\Response;
 use App\Support\QueryOptions;
-use Closure;
 use Illuminate\Support\Collection;
 
 trait QueryTrait
@@ -51,19 +49,6 @@ trait QueryTrait
                 ->withCount($options->withCount)
                 ->where($options->conditions);
 
-            $query->when(!empty($options->anyOfRelationsMustExist), function ($q) use ($options) {
-                $q->where(function ($sub) use ($options) {
-                    foreach ($options->anyOfRelationsMustExist as $index => $relationName) {
-                        $index === 0
-                            ? $sub->has($relationName)
-                            : $sub->orHas($relationName);
-                    }
-                });
-            });
-            if ($options->customQuery) {
-                ($options->customQuery)($query);
-            }
-
             $query = $this->applyScopes($query, $options->scopes);
             return $query->get();
         } catch (\Exception $e) {
@@ -76,9 +61,6 @@ trait QueryTrait
         try {
             $query = $this->model::query()
                 ->where($options->conditions);
-            if ($options->customQuery) {
-                ($options->customQuery)($query);
-            }
 
             $query = $this->applyScopes($query, $options->scopes);
             return $query->count();
@@ -113,48 +95,29 @@ trait QueryTrait
         }
     }
 
-    public function find($id, $conditions = [], $with = [], $withTrashed = false, Closure|null $custom = null): ?object
+    public function find($id, array $with = [], array $conditions = []): ?object
     {
         try {
             return $this->model::query()
                 ->with($with)
                 ->where($conditions)
-                ->when($withTrashed, function ($query) {
-                    $query->withTrashed();
-                })
-                ->when($custom, function ($q) use ($custom) {
-                    $q->where($custom);
-                })
                 ->findOrFail($id);
         } catch (\Exception $e) {
-            throw new \Exception(__('apis.record_not_found'), Response::HTTP_NOT_FOUND,);
+            \Log::error($e->getMessage());
+            throw new \Exception(__('apis.not_found'));
         }
     }
-    public function findWithTrashed($id, array $with = [], array $conditions = []): ?object
+
+    public function first(array $with = [], array $conditions = []): ?object
     {
         try {
             return $this->model::query()
                 ->with($with)
                 ->where($conditions)
-                ->withTrashed()
-                ->findOrFail($id);
+                ->first();
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }
-
-    public function first(array $with = [], array $conditions = [], Closure|null $custom = null): ?object
-    {
-        try {
-            return $this->model::query()
-                ->with($with)
-                ->where($conditions)
-                ->when($custom, function ($q) use ($custom) {
-                    $q->where($custom);
-                })
-                ->firstOrFail();
-        } catch (\Exception $e) {
-            throw new \Exception(__('apis.record_not_found'));
-        }
-    }
 }
+

@@ -112,7 +112,6 @@ trait CrudTrait
         }
     }
 
-
     public function deleteWhere(array $conditions): int
     {
         return $this->model::where($conditions)->delete();

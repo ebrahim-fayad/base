@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin\Core;
 use App\Exports\MasterExport;
 use App\Http\Controllers\Controller;
 use App\Traits\Excel\ExportHelpersTrait;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ExcelController extends Controller
@@ -22,111 +24,109 @@ class ExcelController extends Controller
     }
 
     /**
-     * Main export entry point
+     * Return available export columns for a model (for the column-selection modal).
      */
-    public function master(string $export, Request $request)
+    public function columns(Request $request): JsonResponse
     {
-        $methodName = class_basename($export);
+        $modelClass = $this->resolveModelFromRequest($request);
 
-        if (!method_exists($this, $methodName)) {
-            throw new \BadMethodCallException("Export method {$methodName} does not exist.");
+        if (!$modelClass) {
+            return response()->json(['columns' => [], 'message' => 'Model parameter is required.'], 422);
         }
 
-        $config = $this->{$methodName}($request);
+        $this->validateModelClass($modelClass);
+
+        $columns = $this->getExportableColumns($modelClass);
+
+        if (empty($columns)) {
+            return response()->json(['columns' => [], 'message' => 'No exportable columns found for this model.']);
+        }
+
+        return response()->json([
+            'columns' => $columns,
+            'model' => class_basename($modelClass),
+        ]);
+    }
+
+    /**
+     * Main export entry point. Columns are selected via request.
+     */
+    public function master(Request $request)
+    {
+        $modelClass = $this->resolveModelFromRequest($request);
+
+        if (!$modelClass) {
+            throw ValidationException::withMessages([
+                'model' => [__('Model parameter is required for export.')],
+            ]);
+        }
+
+        $this->validateModelClass($modelClass);
+
+        $selectedColumns = $request->input('columns', []);
+        if (!is_array($selectedColumns)) {
+            $selectedColumns = $selectedColumns ? [$selectedColumns] : [];
+        }
+
+        $allowedKeys = array_keys($this->getExportableColumns($modelClass));
+
+        if (empty($allowedKeys)) {
+            throw ValidationException::withMessages([
+                'columns' => [__('No exportable columns are defined for this model.')],
+            ]);
+        }
+
+        if (empty($selectedColumns)) {
+            throw ValidationException::withMessages([
+                'columns' => [__('Please select at least one column to export.')],
+            ]);
+        }
+
+        $invalid = array_diff($selectedColumns, $allowedKeys);
+        if (!empty($invalid)) {
+            throw ValidationException::withMessages([
+                'columns' => [__('Invalid column(s) selected: :columns.', ['columns' => implode(', ', $invalid)])],
+            ]);
+        }
+
+        $config = $this->buildExportConfigFromColumns($modelClass, $selectedColumns);
 
         return $this->masterExport(
-            $export,
+            $modelClass,
             $config['cols'],
             $config['values'],
-            $export,
             $request->all(),
             $config['image_columns'] ?? []
         );
     }
 
     /* =========================
-     |  Export Configurations
-     |=========================*/
-
-    public function User(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name'), __('admin.phone')],
-            'values' => ['id', 'name', 'full_phone']
-        ];
-    }
-
-    public function Provider(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name'), __('admin.email'), __('admin.phone'),],
-            'values' => ['id', 'name', 'email', 'full_phone'],
-            'with' => ['city']
-        ];
-    }
-
-    public function Category(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name'), __('admin.followed_category'), __('admin.image')],
-            'values' => ['id', 'name', 'parent.name', 'image'],
-            'image_columns' => ['image' => \App\Models\Category::IMAGEPATH],
-        ];
-    }
-    public function Service(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name')],
-            'values' => ['id', 'name'],
-
-        ];
-    }
-
-    public function Country(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name'), __('admin.key')],
-            'values' => ['id', 'name', 'key'],
-        ];
-    }
-
-    public function Admin(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name'), __('admin.email'), __('admin.phone')],
-            'values' => ['id', 'name', 'email', 'full_phone'],
-        ];
-    }
-
-
-    public function City(): array
-    {
-        return [
-            'cols' => ['#', __('admin.name'), __('admin.country')],
-            'values' => ['id', 'name', 'country.name'],
-        ];
-    }
-
-
-
-    /* =========================
      |  Core Export Logic
      |=========================*/
 
     protected function masterExport(
-        string $model,
+        string $modelClass,
         array $cols,
         array $values,
-        ?string $modelPath = null,
         array $request = [],
         array $imageColumns = []
     ) {
-        $modelClass = $this->resolveModel($model, $modelPath);
+        $this->validateModelClass($modelClass);
 
-        $query = $modelClass::query()
+        // إنشاء instance متصل بالـ Eloquent
+        $model = new $modelClass();
+        // dd(
+        //     $model->getTable(),
+        //     $model->getConnectionName(),
+        //     $model->getConnection()
+        // );
+
+        $query = $model->newQuery()
             ->where($this->prepareConditions($request['conditions'] ?? []))
             ->when(
-                isset($request['searchArray']) && method_exists($modelClass, 'scopeSearch'),
+                isset($request['searchArray']) &&
+                is_array($request['searchArray']) &&
+                method_exists($modelClass, 'scopeSearch'),
                 fn($q) => $q->search($request['searchArray'])
             )
             ->latest()
@@ -141,4 +141,52 @@ class ExcelController extends Controller
             $this->fileName($modelClass)
         );
     }
+
+    /* =========================
+     |  Helper Methods
+     |=========================*/
+
+    protected function resolveModelFromRequest(Request $request): ?string
+    {
+        $model = $request->input('model');
+        if (!$model)
+            return null;
+
+        // Support URL-encoded full class names
+        return urldecode($model);
+    }
+
+    protected function validateModelClass(string $modelClass): string
+    {
+        if (!class_exists($modelClass) || !is_subclass_of($modelClass, \Illuminate\Database\Eloquent\Model::class)) {
+            throw ValidationException::withMessages([
+                'model' => [__('Invalid model class for export.')],
+            ]);
+        }
+        return $modelClass;
+    }
+
+    protected function extractRelations(array $values): array
+    {
+        // relations are any columns like 'parent.name' -> extract 'parent'
+        return collect($values)
+            ->filter(fn($value) => str_contains($value, '.'))
+            ->map(fn($value) => explode('.', $value)[0])
+            ->unique()
+            ->values()
+            ->toArray();
+    }
+
+    protected function fileName(string $modelClass): string
+    {
+        return strtolower(class_basename($modelClass)) . '-reports-' . now()->format('Y-m-d') . '.xlsx';
+    }
+
+    protected function prepareConditions(array $conditions): array
+    {
+        return collect($conditions)
+            ->map(fn($value) => $value === 'null' ? null : $value)
+            ->toArray();
+    }
+
 }

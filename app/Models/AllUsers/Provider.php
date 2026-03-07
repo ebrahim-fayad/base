@@ -2,25 +2,16 @@
 
 namespace App\Models\AllUsers;
 
-use App\Models\Rate;
-use App\Models\Admin;
-use App\Models\Ability;
-use App\Models\Service;
-use App\Models\Category;
-use App\Models\Contract;
-use App\Models\PreviousWork;
-use App\Models\CancelContract;
-use App\Models\ProviderUpdate;
-use App\Models\Core\AuthBaseModel;
-use App\Observers\ProviderObserver;
+
 use App\Enums\ApprovementStatusEnum;
+use App\Models\Core\AuthBaseModel;
+use App\Models\ProviderUpdate;
 use App\Models\Settlement\Settlement;
-use Spatie\Translatable\HasTranslations;
+use App\Observers\ProviderObserver;
 use App\Traits\Providers\RelationsTrait;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use App\Traits\Providers\SettersGettersTrait;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Spatie\Translatable\HasTranslations;
 
 #[ObservedBy([ProviderObserver::class])]
 class Provider extends AuthBaseModel
@@ -43,6 +34,7 @@ class Provider extends AuthBaseModel
         'is_approved',
         'is_notify',
         'map_desc',
+        'refuse_reason',
         'lat',
         'lng',
         'code',
@@ -72,7 +64,7 @@ class Provider extends AuthBaseModel
     }
 
     public function updateRequest(){
-        return $this->hasMany(ProviderUpdate::class, 'provider_id');
+        return $this->hasOne(ProviderUpdate::class, 'provider_id');
     }
 
 

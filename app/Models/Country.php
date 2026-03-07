@@ -35,33 +35,15 @@ class Country extends BaseModel
     }
 
     /**
-     * Default exportable columns configuration for Countries.
-     *
-     * @return array<int, array{label:string,value:string,default:bool}>
+     * أعمدة التصدير (نفس أسلوب باقي الموديلات).
      */
-    public static function exportColumns(): array
+    public function exportableColumns(): array
     {
         return [
-            [
-                'label' => '#',
-                'value' => 'id',
-                'default' => false,
-            ],
-            [
-                'label' => __('admin.name'),
-                'value' => 'name',
-                'default' => true,
-            ],
-            [
-                'label' => __('admin.country_code'),
-                'value' => 'key',
-                'default' => true,
-            ],
-            [
-                'label' => __('admin.image'),
-                'value' => 'flag',
-                'default' => true,
-            ],
+            'id'   => '#',
+            'name' => __('admin.name'),
+            'key'  => __('admin.country_code'),
+            'flag' => __('admin.image'),
         ];
     }
 }

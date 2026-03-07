@@ -2,12 +2,14 @@
 
 namespace App\Services\Core;
 
-use App\Traits\UploadTrait;
-use App\Traits\BaseService\QueryTrait;
 use App\Traits\BaseService\CrudTrait;
-use App\Traits\BaseService\RelationTrait;
-use Illuminate\Database\Eloquent\Model;
 use App\Traits\BaseService\FileNotificationTrait;
+use App\Traits\BaseService\CommunityRoomTrait;
+use App\Traits\BaseService\QueryTrait;
+use App\Traits\BaseService\RelationTrait;
+use App\Traits\UploadTrait;
+use Illuminate\Database\Eloquent\Model;
+use App\Traits\StatusTrait;
 
 class BaseService
 {
@@ -16,6 +18,8 @@ class BaseService
     use CrudTrait;
     use RelationTrait;
     use FileNotificationTrait;
+    use CommunityRoomTrait;
+    use StatusTrait;
 
     protected $model;
 

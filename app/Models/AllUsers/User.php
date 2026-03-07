@@ -46,4 +46,35 @@ class User extends AuthBaseModel
         'active'      => 'boolean',
         'is_notify'   => 'boolean',
     ];
+
+    /**
+     * أعمدة التصدير (تظهر في مودال اختيار الأعمدة).
+     */
+    public function exportableColumns(): array
+    {
+        return [
+            'id'        => '#',
+            'name'      => __('admin.name'),
+            'phone'     => __('admin.phone'),
+            'country_code' => __('admin.country_code'),
+            'image'     => __('admin.image'),
+            'active'    => __('admin.active'),
+            'is_blocked' => __('admin.is_blocked'),
+            'created_at' => __('admin.created_at'),
+        ];
+    }
+
+    /**
+     * قيمة العمود عند التصدير (لتحويل البوليانات لنص واضح بدل 1/0).
+     * أي موديل يريد تحكم في عرض عمود يصدر هذه الدالة ويُرجع النص المطلوب.
+     */
+    public function getExportValue(string $column): mixed
+    {
+        return match ($column) {
+            'active'     => $this->active ? __('admin.activate') : __('admin.dis_activate'),
+            'is_blocked' => $this->is_blocked ? __('admin.is_blocked') : __('admin.not_blocked'),
+            'is_notify'  => $this->is_notify ? __('admin.activate') : __('admin.dis_activate'),
+            default      => data_get($this, $column),
+        };
+    }
 }

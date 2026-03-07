@@ -17,6 +17,7 @@
 </footer>
 <script>
     window.language = "{{ app()->getLocale() }}";
+    window.appExportBaseUrl = "{{ url('export') }}";
 </script>
 <script src="{{ asset('admin/app-assets/vendors/js/vendors.min.js') }}"></script>
 <script src="{{ asset('admin/app-assets/js/core/app-menu.js') }}"></script>
@@ -131,6 +132,7 @@
     });
 
 </script> --}}
+@include('admin.export.column-selection-modal')
 <x-admin.alert />
 {{-- <x-socket /> --}}
 

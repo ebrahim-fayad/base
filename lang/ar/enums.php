@@ -252,9 +252,9 @@ return [
     ],
 
     'approvementStatusEnum'=>[
-        'pending' => 'قيد المراجعة',
-        'approved' => 'مقبول',
-        'rejected' => 'مرفوض',
+        'PENDING' => 'قيد المراجعة',
+        'APPROVED' => 'مقبول',
+        'REJECTED' => 'مرفوض',
 
         'status_details_pending' => 'تم ارسال طلبك في انتظار رد الادارة',
         'status_details_approved' => 'تم قبول طلب التسوية الخاص بك',

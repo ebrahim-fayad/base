@@ -12,8 +12,9 @@
                 deletebutton="{{ route('admin.admins.deleteAll') }}" extrabuttons="true">
                 <x-slot name="extrabuttonsdiv">
                     @if ($modelCount)
-                        <a class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light" id="export-btn"
-                            href="{{ url(route('admin.master-export', ['export' =>App\Models\AllUsers\Admin::class])) }}"><i
+                        <a class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light export-btn" id="export-btn"
+                            data-export="{{ App\Models\AllUsers\Admin::class }}"
+                            href="{{ route('admin.master-export', ['model' => App\Models\AllUsers\Admin::class]) }}"><i
                                 class="fa fa-file-excel-o"></i>
                             {{ __('admin.export') }}</a>
                     @endif

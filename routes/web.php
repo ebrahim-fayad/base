@@ -28,6 +28,7 @@ Route::group(['as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin'], fu
         Route::get('/lang/{lang}', 'Core\AuthController@SetLanguage');
     });
 
-    Route::get('export/{export}', 'Core\ExcelController@master')->name('master-export');
+    Route::get('export/columns', 'Core\ExcelController@columns')->name('master-export.columns');
+    Route::get('export', 'Core\ExcelController@master')->name('master-export');
     Route::post('import-items', 'Core\ExcelController@importItems')->name('import-items');
 });

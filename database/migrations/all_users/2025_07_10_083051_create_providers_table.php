@@ -32,13 +32,15 @@ class CreateProvidersTable extends Migration
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
 
+            $table->string(column: 'cancel_reason')->nullable();
+
             $table->string('code', 10)->nullable();
             $table->timestamp('code_expire')->nullable();
             $table->softDeletes();
             $table->timestamps();
 
             // Indexes
-            $table->index('email');
+            $table->index('phone');
             $table->fullText('name');
         });
     }

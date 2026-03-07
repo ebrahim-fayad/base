@@ -3,8 +3,6 @@
 namespace App\Traits\BaseService;
 
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 
 trait FileNotificationTrait
 {
@@ -26,41 +24,6 @@ trait FileNotificationTrait
         }
     }
 
-    public function  moveFilesFromTempToModelDirectory($data, $model, $otherModelInfo = null)
-    {
-        $modelFields = $model->getFillable();
-        $filesFields = array_filter($modelFields, function ($field) {
-            return Str::contains($field, ['photo', 'image', 'attachment']);
-        });
-
-        $otherModelInfoFields = $otherModelInfo ? array_filter($otherModelInfo->getFillable(), function ($field) {
-            return Str::contains($field, ['photo', 'image', 'attachment']);
-        }) : [];
-        
-        foreach (array_merge($filesFields, $otherModelInfoFields) as $field) {
-            if (isset($data[$field]) && is_string($data[$field])) {
-                $path = public_path('storage/images/uploaded_temp_files/' . $data[$field]);
-                if (File::exists($path)) {
-                    if(!File::exists(public_path('storage/images/' . $model::IMAGEPATH ))){
-                        File::makeDirectory(public_path('storage/images/' . $model::IMAGEPATH), 0777, true, true);
-                    }
-                    File::move($path, public_path('storage/images/' . $model::IMAGEPATH . '/' . $data[$field]));
-                }
-            }
-            if (isset($data[$field]) && is_array($data[$field])) {
-                foreach ($data[$field] as $file) {
-                    $path = public_path('storage/images/uploaded_temp_files/' . $file);
-                    if (File::exists($path)) {
-                        if(!File::exists(public_path('storage/images/' . $model::IMAGEPATH ))){
-                            File::makeDirectory(public_path('storage/images/' . $model::IMAGEPATH), 0777, true, true);
-                        }
-                        File::move($path, public_path('storage/images/' . $model::IMAGEPATH . '/' . $file));
-                    }
-                }
-            }
-        }
-    }
-
     public function sendNotification($data)
     {
         try {
@@ -79,3 +42,4 @@ trait FileNotificationTrait
         return ['class' => $this->model, 'id' => $id];
     }
 }
+

@@ -17,7 +17,9 @@
         >
 
             <x-slot name="extrabuttonsdiv">
-                <a class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light"  href="{{url(route('admin.master-export', ['export' => App\Models\Country::class]))}}"><i  class="fa fa-file-excel-o"></i>
+                <a class="btn bg-gradient-info mr-1 mb-1 waves-effect waves-light export-btn" id="export-btn"
+                    data-export="{{ App\Models\Country::class }}"
+                    href="{{ route('admin.master-export', ['model' => App\Models\Country::class]) }}"><i class="fa fa-file-excel-o"></i>
                     {{ __('admin.export') }}</a>
             </x-slot>
 

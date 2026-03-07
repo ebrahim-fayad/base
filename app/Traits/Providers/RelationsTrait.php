@@ -50,9 +50,6 @@ trait RelationsTrait
         return $orders;
     }
 
-    public function services()
-    {
-        return $this->hasMany(Service::class, 'provider_id');
-    }
+
 
 }
