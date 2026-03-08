@@ -1491,11 +1491,24 @@ body.dark-layout .searchTable {
 
 body.dark-layout .btn-searchTable ,
 body.dark-layout .product-action > span {
-  background: #212744;}
+  background: #212744;
+  color: #7367f0;
+}
 
-  body.dark-layout .btn-searchTable > i{
-    outline-color: #262c49
-  }
+body.dark-layout .btn-searchTable:hover {
+  background: #7367f0;
+  color: #fff;
+}
+
+body.dark-layout .btn-searchTable:hover > i {
+  border-color: #fff;
+  outline-color: #7367f0;
+}
+
+body.dark-layout .btn-searchTable > i{
+  outline-color: #262c49;
+  border-color: #7367f0;
+}
 
 body.dark-layout footer.footer {
 		background: #10163a;}

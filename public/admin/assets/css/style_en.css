@@ -21,9 +21,59 @@
     right: 0;
     left: unset !important;
     transform: translateX(100%) !important;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                box-shadow 0.4s ease,
+                opacity 0.3s ease !important;
 }
+
 .searchTable.active{
     transform: translateX(0) !important;
+    opacity: 1;
+    box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+}
+
+.searchTable .forma > * {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.searchTable.active .forma > * {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.searchTable.active .forma > *:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.searchTable.active .forma > *:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.searchTable.active .forma > *:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.searchTable.active .forma > *:nth-child(4) {
+    transition-delay: 0.25s;
+}
+
+.searchTable.active .forma > *:nth-child(5) {
+    transition-delay: 0.3s;
+}
+
+.searchTable.active .forma > *:nth-child(6) {
+    transition-delay: 0.35s;
+}
+
+.searchTable.active .forma > *:nth-child(7) {
+    transition-delay: 0.4s;
+}
+
+.searchTable.active .forma > *:nth-child(8) {
+    transition-delay: 0.45s;
 }
 select.form-control:not([multiple='multiple']) {
     background-position: right !important;

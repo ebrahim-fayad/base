@@ -3,6 +3,9 @@
         <i class="feather icon-filter"></i> <span>{{  __('admin.filter') }}</span>
     </button>
 
+<!-- Overlay for closing the filter sidebar -->
+<div class="layout_"></div>
+
 <div class="searchTable">
     <div class="forma">
 
@@ -14,7 +17,7 @@
         @isset($order)
             <div class="form-group">
                 <label for="first-name-column">{{ __('admin.sort_by') }}</label>
-                <div class="controls border">
+                <div class="controls">
                     <i class="fa fa-times clean-input"></i>
                     <select name="order" class="form-control search-input select2">
                         <option value>{{ __('admin.choose') }}</option>
@@ -28,14 +31,14 @@
         @isset($datefilter)
             <div class="form-group">
                 <label for="first-name-column">{{ __('admin.beginning_date') }}</label>
-                <div class="controls border" id="start">
+                <div class="controls" id="start">
                     <input type="date"  name="created_at_min" class="form-control search-input" data-input>
                     <i class="fa fa-times clear-input" data-clear></i>
                 </div>
             </div>
             <div class="form-group">
                 <label for="first-name-column">{{ __('admin.end_date') }}</label>
-                <div class="controls border" id="end">
+                <div class="controls" id="end">
                     <input type="date"  name="created_at_max" class="form-control search-input" data-input>
                     <i class="fa fa-times clear-input" data-clear></i>
                 </div>
@@ -46,7 +49,7 @@
             @foreach ($searchArray as $key => $value)
                 <div class="form-group">
                     <label for="first-name-column">{{ $value['input_name'] }}</label>
-                    <div class="controls border">
+                    <div class="controls">
                         <i class="fa fa-times clean-input"></i>
                         @if ($value['input_type'] == 'text')
                             <input type="text" name="{{ $key }}" class="form-control search-input "

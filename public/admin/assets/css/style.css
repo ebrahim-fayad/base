@@ -706,8 +706,8 @@ body.dark-layout .table td > a {
 }
 
 .btn-searchTable {
-    padding: 0px;
-    display: flex;
+    padding: 5px 15px 5px 5px;
+    display: inline-flex;
     align-items: center;
     background: #f2eeee;
     color: #7367f0;
@@ -715,7 +715,24 @@ body.dark-layout .table td > a {
     gap: 8px;
     border: none;
     border-radius: 50px;
-    min-width: 88px;
+    min-width: 100px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.btn-searchTable:hover {
+    background: #7367f0;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(115, 103, 240, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-searchTable:hover > i {
+    border-color: #fff;
+}
+
+.btn-searchTable:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-searchTable > i{
@@ -727,9 +744,42 @@ body.dark-layout .table td > a {
     align-items: center;
     border: 1px dashed #7367f0;
     border-radius: 50%;
-    outline: 3px solid #f8f8f8;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
 }
 
+.btn-searchTable > span {
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1;
+}
+
+/* Fix for RTL languages */
+html[lang="ar"] .btn-searchTable {
+    padding: 5px 5px 5px 15px;
+}
+
+
+/* Overlay for filter sidebar */
+.layout_ {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  backdrop-filter: blur(0px);
+}
+
+.layout_.active {
+  opacity: 1;
+  visibility: visible;
+  backdrop-filter: blur(3px);
+}
 
 .searchTable {
   width: 350px;
@@ -740,10 +790,13 @@ body.dark-layout .table td > a {
   z-index: 110;
   background-color: #fff;
   box-shadow: 1px 0 5px 0 rgba(0, 0, 0, 0.1);
-  transition: all 0.3s linear 0s;
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 0.4s ease,
+              opacity 0.3s ease;
   transform: translateX(-100%);
   display: flex;
   flex-direction: column;
+  opacity: 0;
 }
 
 .searchTable .forma {
@@ -752,8 +805,75 @@ body.dark-layout .table td > a {
   padding: 15px;
 }
 
+.searchTable .forma > * {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
 .searchTable.active {
   transform: translateX(0);
+  opacity: 1;
+  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+}
+
+.searchTable.active .forma > * {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.searchTable.active .forma > *:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.searchTable.active .forma > *:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.searchTable.active .forma > *:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+.searchTable.active .forma > *:nth-child(4) {
+  transition-delay: 0.25s;
+}
+
+.searchTable.active .forma > *:nth-child(5) {
+  transition-delay: 0.3s;
+}
+
+.searchTable.active .forma > *:nth-child(6) {
+  transition-delay: 0.35s;
+}
+
+.searchTable.active .forma > *:nth-child(7) {
+  transition-delay: 0.4s;
+}
+
+.searchTable.active .forma > *:nth-child(8) {
+  transition-delay: 0.45s;
+}
+
+.searchTable .btnClose {
+  cursor: pointer;
+  font-size: 20px;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.searchTable .btnClose:hover {
+  transform: scale(1.1) rotate(90deg);
+  background-color: rgba(234, 84, 85, 0.1);
+}
+
+/* Dark mode support for overlay */
+body.dark-layout .layout_ {
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
 .flatpickr-input[readonly] {
@@ -794,6 +914,74 @@ textarea.form-control {
 
 .searchTable .form-control {
   background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.searchTable .form-control:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(115, 103, 240, 0.15);
+}
+
+.searchTable .form-group {
+  transition: transform 0.2s ease;
+}
+
+.searchTable .form-group:hover {
+  transform: translateX(3px);
+}
+
+/* Responsive adjustments for filter sidebar */
+@media (max-width: 576px) {
+  .searchTable {
+    width: 300px;
+  }
+
+  .btn-searchTable {
+    min-width: 90px;
+    padding: 4px 12px 4px 4px;
+    font-size: 14px;
+  }
+
+  .btn-searchTable > i {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .btn-searchTable > span {
+    font-size: 14px;
+  }
+
+  html[lang="ar"] .btn-searchTable {
+    padding: 4px 4px 4px 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .searchTable {
+    width: 85%;
+    max-width: 320px;
+  }
+
+  .btn-searchTable {
+    min-width: 80px;
+    padding: 3px 10px 3px 3px;
+    font-size: 13px;
+  }
+
+  .btn-searchTable > i {
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+  }
+
+  .btn-searchTable > span {
+    font-size: 13px;
+  }
+
+  html[lang="ar"] .btn-searchTable {
+    padding: 3px 3px 3px 10px;
+  }
 }
 
 .form-control[name="iso"] {

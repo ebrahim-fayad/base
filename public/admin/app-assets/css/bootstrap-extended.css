@@ -2178,11 +2178,12 @@ button, html [type='button'], [type='reset'], [type='submit'] {
           transform : translateY(100%);
 }
 
-@media (max-width: 575.98px) {
+/* Commented out to show language text on small screens */
+/* @media (max-width: 575.98px) {
   .header-navbar .navbar-container ul.nav li .selected-language {
     display : none;
   }
-}
+} */
 
 body[data-col='1-column'] .header-navbar.floating-nav {
   width : calc(100vw - (100vw - 100%) - calc(2.2rem * 2));
