@@ -12,7 +12,8 @@
     <div class="mb-1 d-flex justify-content-between m-0">
         <x-admin.buttons />
     </div>
-    <div class="table_content_append">
+    <div class="table-container table-scroll-container">
+        <div class="table_content_append"></div>
     </div>
 </div>
 

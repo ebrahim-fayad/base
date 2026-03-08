@@ -21,6 +21,7 @@ class GeneralNotification extends BaseNotification
         $this->data['user_name'] = data_get($model, 'complaintable.name')
             ?? data_get($model, 'withdrawable.name')
             ?? data_get($model, 'user_name')
-            ?? data_get($model, 'user.name');
+            ?? data_get($model, 'user.name')
+            ?? data_get($model, 'name');
     }
 }

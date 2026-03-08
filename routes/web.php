@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Route;
 Route::group(['as' => 'admin.', 'namespace' => 'App\Http\Controllers\Admin'], function () {
     Route::prefix('admin')->group(function () {
         require __DIR__ . '/Admin/auth.php';
+        Route::middleware('is_blocked')->group(function () {
         require __DIR__ . '/Admin/home.php';
         require __DIR__ . '/Admin/profile.php';
-
-        Route::middleware('admin')->group(function () {
+        });
+        Route::middleware(['admin','is_blocked'])->group(function () {
             require __DIR__ . '/Admin/all_users.php';
             require __DIR__ . '/Admin/intro.php';
             require __DIR__ . '/Admin/public-settings.php';

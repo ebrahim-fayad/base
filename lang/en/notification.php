@@ -95,7 +95,7 @@ return [
     'body_'.NotificationTypeEnum::Order_Fully_Paid->value => 'The invoice for order has been fully paid by client, order number (:order_num)',
 
     'title_'.NotificationTypeEnum::Admin_User_Block->value => 'User blocked',
-    'body_'.NotificationTypeEnum::Admin_User_Block->value => 'The user :user_name has been blocked, because of many invalid login attempts',
+    'body_'.NotificationTypeEnum::Admin_User_Block->value => 'You have been blocked by the administration',
 
     'title_' . NotificationTypeEnum::Order_Bank_Transfer->value => 'Order bank transfer sent',
     'body_'  . NotificationTypeEnum::Order_Bank_Transfer->value => 'User :user_name has sent a bank transfer for order #:order_num. Please check the attached image',

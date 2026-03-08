@@ -101,7 +101,7 @@ return [
     'title_'.NotificationTypeEnum::Order_Fully_Paid->value => 'تم دفع الطلب بالكامل',
     'body_'.NotificationTypeEnum::Order_Fully_Paid->value => 'تم دفع الفاتورة لهذا الطلب بالكامل من قبل العميل، رقم الطلب (:order_num)',
     'title_'.NotificationTypeEnum::Admin_User_Block->value => 'تم حظر المستخدم',
-    'body_'.NotificationTypeEnum::Admin_User_Block->value => 'تم حظر المستخدم :user_name بسبب عدة سحوبات فشل تسجيل الدخول',
+    'body_'.NotificationTypeEnum::Admin_User_Block->value => 'تم حظرك من قبل الادارة',
 
     'title_' . NotificationTypeEnum::Order_Bank_Transfer->value => 'تم إرسال حوالة بنكية للطلب',
     'body_'  . NotificationTypeEnum::Order_Bank_Transfer->value => 'قام المستخدم :user_name بإرسال حوالة بنكية للطلب رقم :order_num، يرجى التحقق من الصورة المرفقة.',

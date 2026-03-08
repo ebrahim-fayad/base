@@ -1,12 +1,13 @@
-<div class="position-relative">
+<div class="table-scroll position-relative">
+
     {{-- table loader  --}}
-    <div class="table_loader">
-        {{ __('admin.loading') }}
-    </div>
+        <div class="table_loader" >
+            {{__('admin.loading')}}
+        </div>
     {{-- table loader  --}}
 
     {{-- table content --}}
-    <table class="table " id="tab">
+        <table class="table " id="tab">
         <thead>
             <tr>
                 <th>
@@ -64,23 +65,24 @@
                 </tr>
             @endforeach
         </tbody>
-    </table>
+        </table>
     {{-- table content --}}
     {{-- no data found div --}}
-    @if ($rows->count() == 0)
-        <div class="d-flex flex-column w-100 align-center mt-4">
-            <img src="{{ asset('/storage/images/no_data.png') }}" width="200px" style="" alt="">
-            <span class="mt-2"
-                style="font-family: cairo ;margin-right: 35px">{{ __('admin.there_are_no_matches_matching') }}</span>
-        </div>
-    @endif
+        @if ($rows->count() == 0)
+            <div class="d-flex flex-column w-100 align-center mt-4">
+                <img src="{{asset('/storage/images/no_data.png')}}" width="200px" style="" alt="">
+                <span class="mt-2" style="font-family: cairo ;margin-right: 35px">{{__('admin.there_are_no_matches_matching')}}</span>
+            </div>
+        @endif
     {{-- no data found div --}}
 
 </div>
+<div class="table-pagination">
 {{-- pagination  links div --}}
-@if ($rows->count() > 0 && $rows instanceof \Illuminate\Pagination\AbstractPaginator)
-    <div class="d-flex justify-content-center mt-3">
-        {{ $rows->links('pagination::bootstrap-4') }}
-    </div>
-@endif
+    @if ($rows->count() > 0 && $rows instanceof \Illuminate\Pagination\AbstractPaginator )
+        <div class="d-flex justify-content-center">
+            {{$rows->links()}}
+        </div>
+    @endif
 {{-- pagination  links div --}}
+</div>

@@ -93,8 +93,9 @@
             },
             success: function (response) {
                 let exportBtn = $("#export-btn"); // Select the <a> element
-                $('.table_content_append').html(response.html)
+                $('.table_content_append').html(response.html);
                 $('.table_loader').fadeOut('slow');
+                $(document).trigger('table-content-loaded');
                 if (response.modelCount == 0) {
                     exportBtn.addClass('d-none');
                 } else {

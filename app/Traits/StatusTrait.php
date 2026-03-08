@@ -2,8 +2,9 @@
 
 namespace App\Traits;
 
+use App\Enums\NotificationTypeEnum;
+use App\Notifications\GeneralNotification;
 use App\Services\Core\WalletService;
-use App\Notifications\BlockUser;
 use Illuminate\Support\Facades\Notification;
 
 trait StatusTrait
@@ -33,7 +34,7 @@ trait StatusTrait
             $user->update(['is_blocked' => !$user->is_blocked]);
 
             if ($user->is_blocked) {
-                Notification::send($user, new BlockUser());
+                Notification::send($user, new GeneralNotification($user, NotificationTypeEnum::Admin_User_Block->value));
                 return ['msg' => __('admin.blocked')];
             }
 

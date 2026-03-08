@@ -37,8 +37,8 @@
 
     </div>
 
-    <div class="table_content_append">
-
+    <div class="table-container table-scroll-container">
+        <div class="table_content_append"></div>
     </div>
 </div>
 

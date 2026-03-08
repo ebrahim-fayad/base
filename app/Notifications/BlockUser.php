@@ -14,7 +14,7 @@ class BlockUser extends Notification
     {
         return ['database'];
     }
-    
+
     public function toArray($notifiable)
     {
         if ($notifiable->is_notify) {

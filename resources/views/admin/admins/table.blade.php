@@ -1,4 +1,4 @@
-<div class="position-relative" style="overflow: auto">
+<div class="table-scroll position-relative">
 
     {{-- table loader  --}}
         <div class="table_loader" >
@@ -94,10 +94,12 @@
     {{-- no data found div --}}
 
 </div>
+<div class="table-pagination">
 {{-- pagination  links div --}}
     @if ($rows->count() > 0 && $rows instanceof \Illuminate\Pagination\AbstractPaginator )
-        <div class="d-flex justify-content-center mt-3">
+        <div class="d-flex justify-content-center">
             {{$rows->links()}}
         </div>
     @endif
 {{-- pagination  links div --}}
+</div>

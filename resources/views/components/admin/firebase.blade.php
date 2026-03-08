@@ -121,6 +121,21 @@
 
     @if ($authType == 'admin')
         messaging.onMessage(function(payload) {
+            // إذا كان الإشعار لحظر الأدمن → تسجيل خروج فوري
+            let dataType = payload['data'] && payload['data']['type'] ? payload['data']['type'] : null;
+            if (dataType === 'block') {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '{{ __("auth.blocked") }}',
+                    text: '{{ __("notification.body_user_blocked") }}',
+                    confirmButtonText: '{{ __("site.logout") }}',
+                    allowOutsideClick: false
+                }).then(() => {
+                    window.location.href = '{{ route("admin.logout") }}';
+                });
+                return;
+            }
+
             let countNotify = $('#countNotify');
             let currentCount = parseInt(countNotify.data('num')) || 0;
             let newCount = currentCount + 1;
