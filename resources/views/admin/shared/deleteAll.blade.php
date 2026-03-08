@@ -1,20 +1,38 @@
 <script>
-    $('.delete_all_button').hide()
+    // Force hide delete button on page load - multiple times to ensure it's hidden
+    $('.delete_all_button').hide();
+    
+    $(document).ready(function() {
+        $('.delete_all_button').hide();
+        
+        // Force hide after a delay to ensure DOM is loaded
+        setTimeout(function() {
+            $('.delete_all_button').hide();
+        }, 50);
+        
+        setTimeout(function() {
+            $('.delete_all_button').hide();
+        }, 200);
+        
+        setTimeout(function() {
+            $('.delete_all_button').hide();
+        }, 500);
+    });
+
     $(document).on('change', '#checkedAll', function() {
         if (this.checked) {
-            // setTimeout(function (){
             $(".checkSingle").each(function(index, element) {
                 this.checked = true;
-                $('.delete_all_button').show()
             })
-            // },500);
+            $('.delete_all_button').show();
         } else {
             $(".checkSingle").each(function() {
                 this.checked = false;
-                $('.delete_all_button').hide()
             })
+            $('.delete_all_button').hide();
         }
     });
+
     $(document).on('click', '.checkSingle', function() {
         if ($(this).is(":checked")) {
             var isAllChecked = 0;
@@ -25,7 +43,7 @@
             if (isAllChecked == 0) {
                 $("#checkedAll").prop("checked", true);
             }
-            $('.delete_all_button').show()
+            $('.delete_all_button').show();
         } else {
             var count = 0;
             $(".checkSingle").each(function() {
@@ -33,15 +51,17 @@
                     count++;
             })
             if (count > 0) {
-                $('.delete_all_button').show()
+                $('.delete_all_button').show();
             } else {
-                $('.delete_all_button').hide()
+                $('.delete_all_button').hide();
             }
             $("#checkedAll").prop("checked", false);
         }
     });
+
     $('.delete_all_button').on('click', function(e) {
         e.preventDefault()
+        var deleteButton = $(this);
         Swal.fire({
             title: "{{ __('admin.are_you_sure') }}",
             text: "{{ __('admin.are_you_sure_text') }}",
@@ -66,17 +86,15 @@
 
                 var requestData = JSON.stringify(usersIds);
                 if (usersIds.length > 0) {
-                    e.preventDefault();
                     $.ajax({
                         type: "POST",
-                        url: $(this).data('route'),
+                        url: deleteButton.data('route'),
                         data: {
                             data: requestData
                         },
-
                         success: function(response) {
                             if (response == 'success') {
-                                $('.delete_all_button').hide()
+                                $('.delete_all_button').hide();
                                 Swal.fire({
                                     position: 'top-start',
                                     type: 'success',
@@ -89,11 +107,8 @@
                                 getData({
                                     'searchArray': searchArray()
                                 })
-                                // $('.checkSingle:checked').each(function () {
-                                //     $('.data-list-view').DataTable().row($(this).closest('td').parent('tr')).remove().draw();
-                                // });
                             } else {
-                                $('.delete_all_button').hide()
+                                $('.delete_all_button').hide();
                                 Swal.fire({
                                     position: 'top-start',
                                     type: response.key ?? 'success',

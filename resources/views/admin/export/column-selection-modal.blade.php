@@ -1,12 +1,9 @@
-{{-- Export column selection modal - include in admin layout --}}
-<div class="modal fade" id="export-column-modal" tabindex="-1" role="dialog" aria-labelledby="export-column-modal-title" aria-hidden="true" data-backdrop="static">
+{{-- Export column selection modal - include in admin layout - v3.0 --}}
+<div class="modal fade" id="export-column-modal" tabindex="-1" role="dialog" aria-labelledby="export-column-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content export-column-modal-content">
             <div class="modal-header export-column-modal-header">
-                <div class="export-column-modal-title-wrap">
-                    <span class="export-column-modal-kicker">{{ __('admin.export_excel') }}</span>
-                    <h5 class="modal-title" id="export-column-modal-title">{{ __('admin.export') }} - {{ __('admin.select_columns') }}</h5>
-                </div>
+                <h5 class="modal-title" id="export-column-modal-title">{{ __('admin.export') }} - {{ __('admin.select_columns') }}</h5>
                 <button type="button" class="close export-column-close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -35,133 +32,159 @@
 </div>
 
 <style>
+    /* CSS Variables for Light and Dark Mode */
     #export-column-modal {
-        --export-modal-bg: #ffffff;
-        --export-modal-bg-soft: #f8fbff;
-        --export-modal-bg-muted: #eef4ff;
+        --card-bg-light: #ffffff;
+        --card-bg-dark: #1f2937;
+        --export-modal-bg: var(--card-bg-light);
         --export-modal-border: #e5e7eb;
-        --export-modal-border-soft: #edf2f7;
         --export-modal-text: #111827;
         --export-modal-text-muted: #6b7280;
         --export-modal-accent: #4f46e5;
-        --export-modal-accent-soft: #3451b2;
-        --export-modal-accent-bg: #eef4ff;
         --export-modal-selected-border: #8fb0ff;
         --export-modal-selected-bg: #f3f7ff;
         --export-modal-hover-border: #c7d7fe;
-        --export-modal-shadow: 0 28px 70px rgba(15, 23, 42, 0.18);
-        --export-modal-card-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
-        --export-modal-card-hover-shadow: 0 12px 24px rgba(37, 99, 235, 0.08);
-        --export-modal-card-selected-shadow: 0 14px 28px rgba(79, 70, 229, 0.10);
+        --export-modal-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        --export-modal-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --export-modal-card-hover-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+        --export-modal-card-selected-shadow: 0 4px 16px rgba(79, 70, 229, 0.25);
     }
 
     body.dark-layout #export-column-modal,
     body[data-theme="dark"] #export-column-modal {
-        --export-modal-bg: #111c34;
-        --export-modal-bg-soft: #15223d;
-        --export-modal-bg-muted: #1b2b4b;
-        --export-modal-border: rgba(148, 163, 184, 0.18);
-        --export-modal-border-soft: rgba(148, 163, 184, 0.14);
-        --export-modal-text: #e5eefc;
-        --export-modal-text-muted: #94a3b8;
-        --export-modal-accent: #8b82ff;
-        --export-modal-accent-soft: #c4b5fd;
-        --export-modal-accent-bg: rgba(139, 130, 255, 0.16);
-        --export-modal-selected-border: rgba(139, 130, 255, 0.5);
-        --export-modal-selected-bg: rgba(139, 130, 255, 0.12);
-        --export-modal-hover-border: rgba(139, 130, 255, 0.4);
-        --export-modal-shadow: 0 32px 72px rgba(2, 6, 23, 0.52);
-        --export-modal-card-shadow: 0 8px 22px rgba(2, 6, 23, 0.22);
-        --export-modal-card-hover-shadow: 0 18px 32px rgba(2, 6, 23, 0.3);
-        --export-modal-card-selected-shadow: 0 18px 32px rgba(139, 130, 255, 0.12);
+        --export-modal-bg: var(--card-bg-dark);
+        --export-modal-border: #374151;
+        --export-modal-text: #f9fafb;
+        --export-modal-text-muted: #9ca3af;
+        --export-modal-accent: #818cf8;
+        --export-modal-selected-border: #818cf8;
+        --export-modal-selected-bg: rgba(129, 140, 248, 0.15);
+        --export-modal-hover-border: rgba(129, 140, 248, 0.4);
+        --export-modal-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        --export-modal-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        --export-modal-card-hover-shadow: 0 4px 12px rgba(129, 140, 248, 0.3);
+        --export-modal-card-selected-shadow: 0 4px 16px rgba(129, 140, 248, 0.4);
     }
 
     #export-column-modal .modal-dialog {
-        max-width: 860px;
+        max-width: 900px;
     }
 
     #export-column-modal .modal-content {
         background: var(--export-modal-bg) !important;
     }
 
+    /* Remove backdrop completely */
+    #export-column-modal + .modal-backdrop,
+    #export-column-modal.show + .modal-backdrop,
+    .modal-backdrop.show,
+    .modal-backdrop.fade,
+    .modal-backdrop {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
+    body.dark-layout #export-column-modal + .modal-backdrop,
+    body[data-theme="dark"] #export-column-modal + .modal-backdrop,
+    body.dark-layout #export-column-modal.show + .modal-backdrop,
+    body[data-theme="dark"] #export-column-modal.show + .modal-backdrop,
+    body.dark-layout .modal-backdrop.show,
+    body[data-theme="dark"] .modal-backdrop.show,
+    body.dark-layout .modal-backdrop,
+    body[data-theme="dark"] .modal-backdrop {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+    }
+
+    /* Unified Card Background - Single Color */
     .export-column-modal-content {
         overflow: hidden;
         border: 1px solid var(--export-modal-border) !important;
-        border-radius: 24px !important;
+        border-radius: 12px !important;
         background: var(--export-modal-bg) !important;
         box-shadow: var(--export-modal-shadow) !important;
     }
 
+    /* Header with Flexbox Layout */
     .export-column-modal-header {
         display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        gap: 1rem;
-        padding: 1.4rem 1.5rem 1rem;
-        border-bottom: 1px solid var(--export-modal-border-soft);
-        background: linear-gradient(180deg, var(--export-modal-bg) 0%, var(--export-modal-bg-soft) 100%);
-        border-radius: 24px 24px 0 0;
-    }
-
-    .export-column-modal-title-wrap {
-        display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-    }
-
-    .export-column-modal-kicker {
-        display: inline-flex;
         align-items: center;
-        width: fit-content;
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px;
-        background: var(--export-modal-accent-bg);
-        color: var(--export-modal-accent-soft);
-        font-size: 0.75rem;
-        font-weight: 700;
+        justify-content: space-between;
+        padding: 24px;
+        border-bottom: 1px solid var(--export-modal-border);
+        background: var(--export-modal-bg) !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
     }
 
     .export-column-modal-header .modal-title {
-        font-weight: 700;
-        color: var(--export-modal-text);
         margin: 0;
-        font-size: 1.1rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--export-modal-text) !important;
+        line-height: 1.4;
+        flex: 1;
     }
 
+    /* Close Button */
     .export-column-close {
-        display: inline-flex;
+        display: flex !important;
         align-items: center;
         justify-content: center;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 40px;
+        height: 40px;
         margin: 0 !important;
         padding: 0 !important;
-        border: 1px solid var(--export-modal-border);
-        border-radius: 0.9rem;
-        background: var(--export-modal-bg);
-        color: var(--export-modal-text-muted);
-        font-size: 1.4rem;
+        border: 2px solid #d1d5db !important;
+        border-radius: 8px;
+        background: #ffffff !important;
+        color: #374151 !important;
+        font-size: 1.75rem;
         line-height: 1;
-        opacity: 1;
-        box-shadow: none;
+        opacity: 1 !important;
+        transition: all 0.2s ease;
+        font-weight: 300;
+    }
+
+    body.dark-layout .export-column-close,
+    body[data-theme="dark"] .export-column-close {
+        border-color: #4b5563 !important;
+        background: #374151 !important;
+        color: #f9fafb !important;
+    }
+
+    .export-column-close span {
+        display: block;
+        line-height: 1;
+        margin-top: -2px;
     }
 
     .export-column-close:hover {
-        background: var(--export-modal-bg-soft);
-        color: var(--export-modal-text);
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        border-color: #ef4444 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+    }
+
+    .export-column-close:active {
+        transform: translateY(0);
     }
 
     .export-column-modal-body {
-        padding: 1.25rem 1.5rem 1.4rem;
-        background: var(--export-modal-bg);
+        padding: 24px;
+        background: var(--export-modal-bg) !important;
     }
 
     .export-column-modal-description {
-        color: var(--export-modal-text-muted);
-        margin-bottom: 1.15rem;
-        font-size: 0.96rem;
-        line-height: 1.75;
-        font-weight: 500;
+        color: var(--export-modal-text-muted) !important;
+        margin-bottom: 1.25rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        font-weight: 400;
     }
 
     .export-column-actions {
@@ -173,22 +196,71 @@
     }
 
     .export-column-actions .btn {
-        min-width: 104px;
-        border-radius: 999px !important;
-        font-weight: 700;
+        min-width: 110px;
+        border-radius: 8px !important;
+        font-weight: 600;
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
         box-shadow: none !important;
+    }
+
+    .export-column-actions .btn-outline-primary {
+        border-color: var(--export-modal-accent) !important;
+        color: var(--export-modal-accent) !important;
+    }
+
+    .export-column-actions .btn-outline-primary:hover {
+        background: var(--export-modal-accent) !important;
+        color: #ffffff !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25) !important;
+    }
+
+    body.dark-layout .export-column-actions .btn-outline-primary:hover,
+    body[data-theme="dark"] .export-column-actions .btn-outline-primary:hover {
+        box-shadow: 0 4px 12px rgba(139, 130, 255, 0.35) !important;
+    }
+
+    .export-column-actions .btn-outline-secondary {
+        border-color: var(--export-modal-border) !important;
+        color: var(--export-modal-text-muted) !important;
+    }
+
+    .export-column-actions .btn-outline-secondary:hover {
+        background: var(--export-modal-bg-muted) !important;
+        border-color: var(--export-modal-border) !important;
+        color: var(--export-modal-text) !important;
+        transform: translateY(-1px);
     }
 
     .export-column-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.85rem;
-        max-height: 360px;
+        gap: 0.75rem;
+        max-height: 400px;
         overflow-y: auto;
-        padding: 0.35rem;
-        border: 1px solid var(--export-modal-border-soft);
-        border-radius: 1.1rem;
+        padding: 1rem;
+        border: 1px solid var(--export-modal-border);
+        border-radius: 12px;
         background: var(--export-modal-bg-soft);
+    }
+
+    .export-column-grid::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .export-column-grid::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 10px;
+    }
+
+    .export-column-grid::-webkit-scrollbar-thumb {
+        background: var(--export-modal-border);
+        border-radius: 10px;
+    }
+
+    .export-column-grid::-webkit-scrollbar-thumb:hover {
+        background: var(--export-modal-text-muted);
     }
 
     .export-column-option {
@@ -196,48 +268,70 @@
         flex-direction: row;
         align-items: center;
         gap: 0.75rem;
-        padding: 0.85rem 0.95rem;
-        border-radius: 14px;
+        padding: 1rem 1.1rem;
+        border-radius: 10px;
         cursor: pointer;
-        transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
-        border: 1px solid var(--export-modal-border);
+        border: 1.5px solid var(--export-modal-border);
         background: var(--export-modal-bg);
         min-width: 0;
         width: 100%;
         margin: 0;
         box-shadow: var(--export-modal-card-shadow);
+        position: relative;
     }
 
     .export-column-option:hover {
-        background: var(--export-modal-bg-soft);
+        background: var(--export-modal-bg);
         border-color: var(--export-modal-hover-border);
         box-shadow: var(--export-modal-card-hover-shadow);
-        transform: translateY(-1px);
+        transform: translateY(-2px);
     }
 
     .export-column-option.is-selected {
         border-color: var(--export-modal-selected-border);
-        background: linear-gradient(180deg, var(--export-modal-bg) 0%, var(--export-modal-selected-bg) 100%);
+        background: var(--export-modal-selected-bg);
         box-shadow: var(--export-modal-card-selected-shadow);
+    }
+
+    .export-column-option.is-selected::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: 9px;
+        background: linear-gradient(135deg, transparent 0%, var(--export-modal-accent-bg) 100%);
+        opacity: 0.3;
+        pointer-events: none;
     }
 
     .export-column-option input {
         margin: 0;
         cursor: pointer;
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1.15rem;
+        height: 1.15rem;
         flex-shrink: 0;
         accent-color: var(--export-modal-accent);
+        position: relative;
+        z-index: 1;
     }
 
     .export-column-option .export-column-label {
         margin: 0;
-        font-size: 0.92rem;
-        color: var(--export-modal-text);
+        font-size: 0.9rem;
+        color: var(--export-modal-text) !important;
         line-height: 1.5;
         text-align: start;
         display: block;
         word-break: break-word;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
+    }
+
+    .export-column-option.is-selected .export-column-label {
+        color: var(--export-modal-text) !important;
         font-weight: 600;
     }
 
@@ -245,41 +339,83 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        gap: 0.75rem;
-        border-top: 1px solid var(--export-modal-border-soft);
-        padding: 1rem 1.5rem 1.35rem;
-        background: var(--export-modal-bg);
-        border-radius: 0 0 24px 24px;
+        gap: 12px;
+        border-top: 1px solid var(--export-modal-border);
+        padding: 24px;
+        background: var(--export-modal-bg) !important;
+        border-radius: 0 0 12px 12px;
     }
 
     .export-column-modal-footer .btn-primary {
         min-width: 170px;
-        border-radius: 999px !important;
-        padding: 0.72rem 1.35rem;
+        border-radius: 8px !important;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        background: var(--export-modal-accent) !important;
+        border-color: var(--export-modal-accent) !important;
+    }
+
+    .export-column-modal-footer .btn-primary:hover {
+        background: var(--export-modal-accent-soft) !important;
+        border-color: var(--export-modal-accent-soft) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35) !important;
     }
 
     .export-column-modal-footer .btn-secondary {
-        border-radius: 999px !important;
-        background: var(--export-modal-bg-soft) !important;
-        border-color: var(--export-modal-border-soft) !important;
+        border-radius: 8px !important;
+        background: var(--export-modal-bg) !important;
+        border-color: var(--export-modal-border) !important;
         color: var(--export-modal-text-muted) !important;
+        font-weight: 600;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .export-column-modal-footer .btn-secondary:hover {
+        background: #f3f4f6 !important;
+        border-color: var(--export-modal-border) !important;
+        color: var(--export-modal-text) !important;
+    }
+
+    body.dark-layout .export-column-modal-footer .btn-secondary:hover,
+    body[data-theme="dark"] .export-column-modal-footer .btn-secondary:hover {
+        background: #374151 !important;
     }
 
     #export-column-loading {
-        color: var(--export-modal-text-muted);
+        color: var(--export-modal-text-muted) !important;
         background: var(--export-modal-bg-soft);
-        border: 1px dashed var(--export-modal-hover-border);
-        border-radius: 1rem;
+        border: 2px dashed var(--export-modal-border);
+        border-radius: 12px;
+        padding: 2rem 1rem !important;
     }
 
     #export-column-loading .spinner-border {
         vertical-align: middle;
         color: var(--export-modal-accent);
+        width: 1.5rem;
+        height: 1.5rem;
+        border-width: 3px;
+    }
+
+    #export-column-loading span:not(.spinner-border) {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--export-modal-text-muted) !important;
     }
 
     .export-column-error {
-        border-radius: 1rem !important;
+        border-radius: 12px !important;
         font-weight: 600;
+        border: none !important;
+        background: #fee2e2 !important;
+        color: #991b1b !important;
+    }
+
+    body.dark-layout .export-column-error,
+    body[data-theme="dark"] .export-column-error {
+        background: rgba(239, 68, 68, 0.15) !important;
+        color: #fca5a5 !important;
     }
 
     @media (max-width: 576px) {
