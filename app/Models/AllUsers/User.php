@@ -74,6 +74,8 @@ class User extends AuthBaseModel
             'active'     => $this->active ? __('admin.activate') : __('admin.dis_activate'),
             'is_blocked' => $this->is_blocked ? __('admin.is_blocked') : __('admin.not_blocked'),
             'is_notify'  => $this->is_notify ? __('admin.activate') : __('admin.dis_activate'),
+            'created_at' => $this->created_at->locale(app()->getLocale())
+    ->isoFormat('dddd D MMMM YYYY - h:mm A'),
             default      => data_get($this, $column),
         };
     }
