@@ -16,7 +16,6 @@ body#content_body {
     font-family: $font-family-en;
     font-weight: 600;
     letter-spacing: -0.01em;
-    transition: background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
 }
 
 html[dir="rtl"] body#content_body,
@@ -24,8 +23,8 @@ body#content_body[data-direction="rtl"] {
     font-family: $font-family-ar;
 }
 
-body * {
-    transition: background-color 0.24s ease, color 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+body:not(.theme-transitioning) * {
+    transition: none;
 }
 
 body,
