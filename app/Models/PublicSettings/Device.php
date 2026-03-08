@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Device extends Model
 {
-    protected $fillable = ['device_type','device_id','morph_id' , 'morph_type'];
+    protected $fillable = ['device_type','device_id','morph_id' , 'morph_type','lang'];
 
     public function morph(){
         return $this->morphTo();

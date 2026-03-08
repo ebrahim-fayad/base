@@ -1,0 +1,105 @@
+/* ========================================
+   RTL SPECIFIC STYLES FOR LOGIN PAGE
+======================================== */
+
+/* This file contains RTL-specific overrides for Arabic language support */
+
+/* ========================================
+   GLOBAL RTL ADJUSTMENTS
+======================================== */
+[dir="rtl"] body {
+    font-family: 'Tajawal', 'Inter', sans-serif;
+}
+
+/* ========================================
+   TOP CONTROLS RTL
+======================================== */
+[dir="rtl"] .top-controls {
+    left: var(--spacing-lg);
+    right: auto;
+}
+
+/* ========================================
+   INPUT ICON RTL POSITIONING
+======================================== */
+[dir="rtl"] .input-icon {
+    right: var(--spacing-md);
+    left: auto;
+}
+
+[dir="rtl"] .form-input {
+    padding-right: 3rem;
+    padding-left: var(--spacing-md);
+}
+
+/* ========================================
+   PASSWORD TOGGLE RTL
+======================================== */
+[dir="rtl"] .password-toggle {
+    left: var(--spacing-sm);
+    right: auto;
+}
+
+/* ========================================
+   FEATURES LIST RTL
+======================================== */
+[dir="rtl"] .features-list {
+    text-align: right;
+}
+
+[dir="rtl"] .feature-text {
+    text-align: right;
+}
+
+[dir="rtl"] .feature-item:hover {
+    transform: translateX(5px);
+}
+
+/* ========================================
+   ANIMATIONS RTL
+======================================== */
+[dir="rtl"] .language-toggle {
+    animation: slideInLeft 0.6s ease-out 0.3s both;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========================================
+   RESPONSIVE RTL ADJUSTMENTS
+======================================== */
+@media (max-width: 992px) {
+    [dir="rtl"] .top-controls {
+        left: var(--spacing-md);
+        right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    [dir="rtl"] .top-controls {
+        left: 0.75rem;
+        right: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    [dir="rtl"] .top-controls {
+        left: 0.5rem;
+        right: auto;
+    }
+}
+
+@media (max-width: 380px) {
+    [dir="rtl"] .top-controls {
+        left: 0.375rem;
+        right: auto;
+    }
+}

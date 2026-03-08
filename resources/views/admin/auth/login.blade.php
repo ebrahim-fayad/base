@@ -1,234 +1,177 @@
-<!-- fixed-Loader -->
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="rtl">
-<!-- BEGIN: Head-->
-
+<html lang="{{ lang() }}" dir="{{ lang() === 'ar' ? 'rtl' : 'ltr' }}" data-textdirection="{{ lang() === 'ar' ? 'rtl' : 'ltr' }}" data-theme="light">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta name="description"
-        content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
-    <meta name="keywords"
-        content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
-    <meta name="author" content="PIXINVENT">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <meta name="description" content="{{ $data['name_' . lang()] }} - Admin Login">
+    <meta name="author" content="{{ $data['name_' . lang()] }}">
     <title>{{ __('site.login') }}</title>
+    
     <link rel="apple-touch-icon" href="{{ asset('storage/images/settings/fav_icon.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('storage/images/settings/fav_icon.png') }}">
-
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/vendors-rtl.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/bootstrap.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/bootstrap-extended.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/colors.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/components.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/themes/dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/themes/semi-dark-layout.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('admin/app-assets/css-rtl/core/menu/menu-types/vertical-menu.css') }}">
-    <link rel="stylesheet" type="text/css"
-        href="{{ asset('admin/app-assets/css-rtl/core/colors/palette-gradient.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/pages/authentication.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/custom-rtl.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/style-rtl.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/extensions/toastr.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/css-rtl/plugins/extensions/toastr.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500&display=swap" rel="stylesheet">
-    <style>
-        .app-content {
-            background-image: url("https://images.unsplash.com/photo-1553095066-5014bc7b7f2d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8d2FsbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{{ asset('admin/app-assets/vendors/css/extensions/toastr.css') }}">
+    
+    <!-- Custom Login CSS -->
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/login.css') }}?v={{ time() }}">
+    @if(lang() === 'ar')
+    <link rel="stylesheet" href="{{ asset('admin/assets/css/login-rtl.css') }}?v={{ time() }}">
+    @endif
 </head>
-<!-- END: Head-->
+<body>
+    <!-- Top Controls (Language & Theme Toggle) -->
+    <div class="top-controls">
+        <!-- Language Toggle -->
+        <div class="language-toggle" id="languageToggle">
+            <button class="lang-btn {{ lang() === 'en' ? 'active' : '' }}" data-lang="en" type="button">
+                <span class="flag-icon">🇬🇧</span>
+                <span class="lang-text">English</span>
+            </button>
+            <button class="lang-btn {{ lang() === 'ar' ? 'active' : '' }}" data-lang="ar" type="button">
+                <span class="flag-icon">🇸🇦</span>
+                <span class="lang-text">العربية</span>
+            </button>
+        </div>
+        
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="themeToggle" type="button">
+            <i class="fas fa-moon theme-toggle-icon" id="themeIcon"></i>
+            <span class="theme-toggle-text" id="themeText" data-dark-text="{{ __('site.dark_mode') }}" data-light-text="{{ __('site.light_mode') }}">{{ __('site.dark_mode') }}</span>
+        </button>
+    </div>
 
-<!-- BEGIN: Body-->
-
-<body
-    class="vertical-layout vertical-menu-modern 1-column  navbar-floating footer-static bg-full-screen-image  blank-page blank-page"
-    data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-wrapper">
-            <div class="content-body">
-                <section class="row flexbox-container">
-                    <div class="col-xl-12 d-flex justify-content-center">
-                        <div class="card bg-transparent rounded-0 mb-0 w-75">
-                            <div class="row m-0 overflow-hidden rounded " style="background: #0000004f">
-                                <div class="col-lg-6 d-lg-block d-none text-center align-self-center p-1">
-                                    <img class="auth-logo" src="{{ $data['logo'] }}" alt="branding logo">
-                                </div>
-                                <div class="col-lg-6 col-12 p-0 bg-white">
-                                    <div class="card rounded-0 mb-0 p-2">
-                                        <div class="card-header">
-                                            <div class="card-title w-100">
-                                                <h4 class="mb-1 w-100 text-center font-weight-bold">
-                                                    {{ __('site.login') }}
-                                                </h4>
-                                            </div>
-                                        </div>
-                                        <p class="px-2 text-center">{{ __('site.hi') }} {{ $data['name_' . lang()] }}
-                                        </p>
-                                        <div class="card-content">
-                                            <div class="card-body pt-1">
-                                                <form class="form-horizontal mt-1" action="{{ route('admin.login') }}"
-                                                    method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="device_id" id="device_id">
-                                                    <fieldset
-                                                        class="form-label-group form-group position-relative has-icon-left mb-3">
-                                                        <input type="text" class="form-control"
-                                                            placeholder="{{ __('site.email') }}" name="email" required
-                                                            oninput="this.setCustomValidity('')"
-                                                            oninvalid='this.setCustomValidity("{{ __('admin.this_field_is_required') }}")'>
-                                                        <div class="form-control-position">
-                                                            <i class="feather icon-mail"></i>
-                                                        </div>
-                                                        <label class="field-label"
-                                                            for="phone">{{ __('site.email') }}</label>
-                                                    </fieldset>
-
-                                                    <fieldset
-                                                        class="form-label-group position-relative has-icon-left has-icon-right mb-2">
-                                                        <input type="password" class="form-control" name="password"
-                                                            id="user-password" placeholder="{{ __('site.password') }}"
-                                                            required oninput="this.setCustomValidity('')"
-                                                            oninvalid='this.setCustomValidity("{{ __('admin.this_field_is_required') }}")'>
-                                                        <div class="form-control-position">
-                                                            <i class="feather icon-lock"></i>
-                                                        </div>
-                                                        <div class="form-control-position"
-                                                            style="left: 10px; right: auto; cursor: pointer;"
-                                                            id="togglePassword" title="إظهار / إخفاء كلمة المرور">
-                                                            <i class="feather icon-eye" id="passwordToggleIcon"></i>
-                                                        </div>
-                                                        <label class="field-label"
-                                                            for="user-password">{{ __('site.password') }}</label>
-                                                    </fieldset>
-                                                    <div
-                                                        class="form-group d-flex justify-content-between align-items-center">
-                                                        <div class="text-left">
-                                                            <fieldset class="checkbox">
-                                                                <div class="vs-checkbox-con vs-checkbox-primary">
-                                                                    <input type="checkbox">
-                                                                    <span class="vs-checkbox">
-                                                                        <span class="vs-checkbox--check">
-                                                                            <i class="vs-icon feather icon-check"></i>
-                                                                        </span>
-                                                                    </span>
-                                                                    <span
-                                                                        class="text-dark">{{ __('site.remember') }}</span>
-                                                                </div>
-                                                            </fieldset>
-                                                        </div>
-                                                    </div>
-                                                    <button type="submit"
-                                                        class="btn btn-primary w-100 btn-inline submit_button">{{ __('site.login') }}</button>
-                                                </form>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <!-- Login Container -->
+    <div class="login-container">
+        <!-- Left Side: Login Form -->
+        <div class="login-form-section">
+            <!-- Logo -->
+            <div class="logo-container">
+                <img src="{{ $data['logo'] }}" alt="{{ $data['name_' . lang()] }}">
+            </div>
+            
+            <!-- Login Header -->
+            <div class="login-header">
+                <h1 class="login-title">{{ __('site.login') }}</h1>
+                <p class="login-subtitle">{{ __('site.hi') }} {{ $data['name_' . lang()] }}</p>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="login-form form-horizontal" action="{{ route('admin.login') }}" method="POST">
+                @csrf
+                <input type="hidden" name="device_id" id="device_id">
+                <input type="hidden" name="selected_lang" id="selected_lang" value="{{ lang() }}">
+                
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">{{ __('site.email') }}</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="{{ __('site.email') }}"
+                            autocomplete="email"
+                            required
+                        >
+                        <i class="fas fa-envelope input-icon"></i>
                     </div>
-                </section>
-
+                </div>
+                
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">{{ __('site.password') }}</label>
+                    <div class="input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="{{ __('site.password') }}"
+                            autocomplete="current-password"
+                            required
+                        >
+                        <i class="fas fa-lock input-icon"></i>
+                        <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                    </div>
+                </div>
+                
+                <!-- Remember Me -->
+                <div class="remember-me">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" name="remember" value="1">
+                        <span class="checkbox-mark"></span>
+                    </label>
+                    <span class="checkbox-label">{{ __('site.remember') }}</span>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="btn-login submit_button" data-text="{{ __('site.login') }}">
+                    {{ __('site.login') }}
+                </button>
+            </form>
+        </div>
+        
+        <!-- Right Side: Branding -->
+        <div class="branding-section">
+            <div class="branding-content">
+                <h2 class="branding-title">{{ __('site.welcome_back') }}</h2>
+                <p class="branding-description">{{ __('site.login_description') }}</p>
+                
+                <!-- Features List -->
+                <ul class="features-list">
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">{{ __('site.secure_access') }}</div>
+                            <div class="feature-description">{{ __('site.secure_access_desc') }}</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">{{ __('site.fast_performance') }}</div>
+                            <div class="feature-description">{{ __('site.fast_performance_desc') }}</div>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-text">
+                            <div class="feature-title">{{ __('site.analytics') }}</div>
+                            <div class="feature-description">{{ __('site.analytics_desc') }}</div>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-    <!-- END: Content-->
 
+    <!-- Scripts -->
     <script src="{{ asset('admin/app-assets/vendors/js/vendors.min.js') }}"></script>
-    <script src="{{ asset('admin/app-assets/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('admin/app-assets/js/core/app.js') }}"></script>
-    <script src="{{ asset('admin/app-assets/js/scripts/components.js') }}"></script>
     <script src="{{ asset('admin/app-assets/vendors/js/extensions/toastr.min.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/js/all.min.js"></script>
-    <script>
-        toastr.options = {
-            "closeButton": true,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "showMethod": "slideDown",
-            "hideMethod": "slideUp",
-            timeOut: 2000
-        };
-
-        $(document).ready(function () {
-            $('#togglePassword').on('click', function () {
-                var input = $('#user-password');
-                var icon = $('#passwordToggleIcon');
-                if (input.attr('type') === 'password') {
-                    input.attr('type', 'text');
-                    icon.removeClass('icon-eye').addClass('icon-eye-off');
-                } else {
-                    input.attr('type', 'password');
-                    icon.removeClass('icon-eye-off').addClass('icon-eye');
-                }
-            });
-
-            $(document).on('submit', '.form-horizontal', function (e) {
-                e.preventDefault();
-                var url = $(this).attr('action')
-                $.ajax({
-                    url: url,
-                    method: 'post',
-                    data: new FormData($(this)[0]),
-                    dataType: 'json',
-                    processData: false,
-                    contentType: false,
-                    beforeSend: function () {
-                        $(".submit_button").html('<i class="fas fa-spinner"></i>').attr(
-                            'disables', true);
-                    },
-                    success: function (response) {
-                        $(".text-danger").remove()
-                        $('.form-horizontal input').removeClass('border-danger')
-                        if (response.status == 'login') {
-                            toastr.success(response.message)
-                            setTimeout(function () {
-                                window.location.replace(response.url)
-                            }, 1000);
-                        } else {
-                            $(".submit_button").html(
-                                `<i class="ft-unlock"></i> {{ __('admin.login') }}`).attr(
-                                    'disable', false)
-                            $('.form-horizontal input[name=password]').addClass('border-danger')
-                            $('.form-horizontal input[name=password').after(
-                                `<span class="mt-5 text-danger">${response.message}</span>`);
-                        }
-                    },
-                    error: function (xhr) {
-                        $(".submit_button").html("{{ __('admin.login') }}").attr('disable',
-                            false)
-                        $(".text-danger").remove()
-                        $('.form-horizontal input').removeClass('border-danger')
-
-                        $.each(xhr.responseJSON.errors, function (key, value) {
-                            $('.form-horizontal input[name=' + key + ']').addClass(
-                                'border-danger')
-                            $('.form-horizontal input[name=' + key + ']').after(
-                                `<span class="mt-5 text-danger">${value}</span>`);
-                        });
-                    },
-                });
-
-            });
-        });
-    </script>
-
+    <script src="{{ asset('admin/assets/js/login.js') }}"></script>
+    
+    <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-messaging-compat.js"></script>
     <script>
+        @if(config('fcm.api_key'))
         const firebaseConfig = {
             apiKey: "{{ config('fcm.api_key') }}",
             authDomain: "{{ config('fcm.auth_domain') }}",
@@ -236,33 +179,14 @@
             storageBucket: "{{ config('fcm.storage_bucket') }}",
             messagingSenderId: "{{ config('fcm.messaging_sender_id') }}",
             appId: "{{ config('fcm.app_id') }}",
-            measurementId: "{{ config('fcm.measurement_id') }}"
+            measurementId: "{{ config('fcm.measurement_id') }}",
+            vapidKey: "{{ config('fcm.vapid_key') }}"
         };
-
-        // Init Firebase
-        firebase.initializeApp(firebaseConfig);
-        console.log('firebaseConfig', firebaseConfig);
-        // Init Messaging
-        const messaging = firebase.messaging();
-
-        Notification.requestPermission().then((permission) => {
-
-            if (permission === "granted") {
-                console.log('permission', permission);
-                messaging.getToken({
-                    vapidKey: "{{ config('fcm.vapid_key') }}"
-
-                }).then((token) => {
-                    console.log('token', token);
-                    document.getElementById("device_id").value = token;
-                }).catch((err) => {
-                    console.log('err', err);
-                });
-            } else {
-                console.log("Notification permission denied.");
-            }
-        });
+        
+        if (typeof FirebaseManager !== 'undefined') {
+            FirebaseManager.init(firebaseConfig);
+        }
+        @endif
     </script>
 </body>
-
 </html>
