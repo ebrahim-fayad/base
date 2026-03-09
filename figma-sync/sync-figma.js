@@ -7,7 +7,8 @@ require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const FIGMA_TOKEN = process.env.FIGMA_TOKEN;
 const FILE_ID = process.env.FIGMA_FILE_ID;
-
+// const FIGMA_TOKEN = "figd_3_DjizBiZVJNqKGEILvS4TkJCYfNgz6vsBkvvftz";
+// const FILE_ID = "fIN5u1RaRu3QKXZJOnUcwn";
 
 if (!FIGMA_TOKEN || !FILE_ID) {
     console.error(
