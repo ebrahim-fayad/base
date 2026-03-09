@@ -48,7 +48,7 @@ class ComplaintController extends Controller
     {
         $complaint = $this->complaintService->create($request->validated());
         // $data = $this->complaintService->createManyRelation('images', $complaint, $request->validated()['images']);
-        Notification::send(Admin::all(), new GeneralNotification($complaint, NotificationTypeEnum::NEW_COMPLAINT->value));
+        Notification::send(Admin::all(), new GeneralNotification($complaint, NotificationTypeEnum::NEW_COMPLAINT->value,route('admin.complaints.show', $complaint->id)));
         return $this->jsonResponse(__('apis.success'), data: ComplaintLiteResource::make($complaint));
     }
     public function show($id): JsonResponse
@@ -65,7 +65,7 @@ class ComplaintController extends Controller
     {
         $complaint = $this->complaintService->create($request->validated());
         // $data = $this->complaintService->createRelation('images', $complaint, ['image' => $request->validated()['image']]);
-        Notification::send(Admin::all(), new GeneralNotification($complaint, NotificationTypeEnum::NEW_CONTACT_US->value));
+        Notification::send(Admin::all(), new GeneralNotification($complaint, NotificationTypeEnum::NEW_CONTACT_US->value,route('admin.contact_messages.show', $complaint->id)));
         return $this->jsonResponse(msg: __('apis.success'), data: ComplaintLiteResource::make($complaint));
     }
 }

@@ -1,0 +1,42 @@
+/* ========================================
+   NOTIFICATIONS PAGE - RTL STYLES
+======================================== */
+
+/* تعديل الاتجاه للـ RTL */
+[dir="rtl"] .mail-read:hover {
+    transform: translateX(4px);
+}
+
+/* تعديل الـ padding للـ media-left */
+[dir="rtl"] .media-left {
+    padding-right: 0;
+    padding-left: 1rem;
+}
+
+[dir="rtl"] .media-left.pr-50 {
+    padding-right: 0;
+    padding-left: 0.5rem;
+}
+
+/* تعديل الـ border للإشعارات غير المقروءة */
+[dir="rtl"] .mail-read.unread {
+    border-right: none;
+    border-left: 3px solid #7367f0;
+}
+
+/* إصلاح الـ scrollbar في RTL */
+[dir="rtl"] .email-user-list {
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+[dir="rtl"] .email-app-list {
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+/* إخفاء scrollbar الداخلي في RTL */
+[dir="rtl"] .ps__rail-x,
+[dir="rtl"] .ps__rail-y {
+    display: none !important;
+}

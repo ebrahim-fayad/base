@@ -20,6 +20,7 @@ class NotifyUser extends Notification
             'title_ar' => $request['title_ar'],
             'title_en' => $request['title_en'],
             'type'     => 'admin_notify',
+            'url'      => $request['url'] ?? null,
         ];
     }
 

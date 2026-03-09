@@ -106,4 +106,60 @@ class AdminController extends AdminBasicController
             ], 500);
         }
     }
+
+    public function markNotificationAsRead($id)
+    {
+        try {
+            $notification = auth('admin')->user()->notifications()->where('id', $id)->first();
+            
+            if (!$notification) {
+                return response()->json([
+                    'success' => false,
+                    'message' => __('admin.notification_not_found')
+                ], 404);
+            }
+
+            $notification->markAsRead();
+
+            // الحصول على عدد الإشعارات غير المقروءة
+            $unreadCount = auth('admin')->user()->unreadNotifications()->count();
+
+            return response()->json([
+                'success' => true,
+                'message' => __('admin.notification_marked_as_read'),
+                'unread_count' => $unreadCount
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function markLatestNotificationAsRead()
+    {
+        try {
+            // الحصول على آخر إشعار غير مقروء
+            $notification = auth('admin')->user()->unreadNotifications()->latest()->first();
+            
+            if ($notification) {
+                $notification->markAsRead();
+            }
+
+            // الحصول على عدد الإشعارات غير المقروءة
+            $unreadCount = auth('admin')->user()->unreadNotifications()->count();
+
+            return response()->json([
+                'success' => true,
+                'message' => __('admin.notification_marked_as_read'),
+                'unread_count' => $unreadCount
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

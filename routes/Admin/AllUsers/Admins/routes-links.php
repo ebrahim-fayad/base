@@ -108,5 +108,19 @@ Route::post('translate-notification', [
     'title' => 'admins.translate_notification',
 ]);
 
+# mark notification as read
+Route::post('mark-notification-read/{id}', [
+    'uses' => $controller . '@markNotificationAsRead',
+    'as' => 'admins.notifications.markAsRead',
+    'title' => 'admins.mark_notification_read',
+]);
+
+# mark latest notification as read
+Route::post('mark-latest-notification-read', [
+    'uses' => $controller . '@markLatestNotificationAsRead',
+    'as' => 'admins.notifications.markLatestAsRead',
+    'title' => 'admins.mark_latest_notification_read',
+]);
+
 
 /*------------ end Of admins Controller ----------*/

@@ -1,3 +1,6 @@
+<!-- Dashboard Notification Container -->
+<div id="dashboard-notification-container"></div>
+
 <!-- FireBase -->
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 {{-- <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase.js"></script> --}}
@@ -7,61 +10,182 @@
 <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-firestore.js"></script>
 <script src="{{ asset('admin/app-assets/vendors/js/extensions/sweetalert2.all.min.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('admin/assets/css/dashboard-notifications.css') }}?v={{time()}}">
+<script src="{{ asset('admin/assets/js/dashboard-notifications.js') }}?v={{time()}}"></script>
 
 <style>
-    /* SweetAlert Notification Styles - Dashboard Colors */
+    /* ========================================
+       FCM NOTIFICATION POPUP - PREMIUM STYLE
+    ======================================== */
+    
     .notification-swal {
+        background: #fff !important;
+        border: none !important;
         border-left: 4px solid #7367F0 !important;
-        border-radius: 8px !important;
-        box-shadow: 0 4px 12px rgba(115, 103, 240, 0.15) !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 24px rgba(115, 103, 240, 0.2), 
+                    0 0 0 0 rgba(115, 103, 240, 0.4) !important;
         cursor: pointer !important;
-        transition: all 0.3s ease !important;
-        padding-left: 20px !important;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        padding: 1.25rem 1.5rem !important;
+        min-width: 350px !important;
+        max-width: 400px !important;
+        position: relative !important;
+    }
+    
+    /* Pulse effect للفت الانتباه */
+    @keyframes pulse {
+        0% {
+            box-shadow: 0 8px 24px rgba(115, 103, 240, 0.2), 
+                        0 0 0 0 rgba(115, 103, 240, 0.4);
+        }
+        50% {
+            box-shadow: 0 8px 24px rgba(115, 103, 240, 0.3), 
+                        0 0 0 10px rgba(115, 103, 240, 0);
+        }
+        100% {
+            box-shadow: 0 8px 24px rgba(115, 103, 240, 0.2), 
+                        0 0 0 0 rgba(115, 103, 240, 0);
+        }
+    }
+    
+    .notification-swal.swal2-show {
+        animation: fadeInBounce 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                   shake 0.5s ease-in-out 0.6s,
+                   pulse 1.5s ease-in-out 1.1s !important;
     }
 
     .notification-swal:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 6px 20px rgba(115, 103, 240, 0.25) !important;
+        transform: translateY(-4px) translateX(-2px) !important;
+        box-shadow: 0 12px 32px rgba(115, 103, 240, 0.3) !important;
+        border-left-width: 6px !important;
     }
 
+    /* Notification Image */
     .notification-swal .swal2-image {
-        margin: 0 0 12px 0 !important;
-        max-width: 50px !important;
-        max-height: 50px !important;
-        border-radius: 8px !important;
-        object-fit: contain !important;
+        margin: 0 0 1rem 0 !important;
+        max-width: 56px !important;
+        max-height: 56px !important;
+        border-radius: 10px !important;
+        object-fit: cover !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     }
 
+    /* Notification Title */
     .notification-title {
-        color: #7367F0 !important;
-        font-weight: 600 !important;
-        font-size: 16px !important;
-        margin-bottom: 8px !important;
+        color: #5E5873 !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        margin-bottom: 0.5rem !important;
+        line-height: 1.4 !important;
+        letter-spacing: -0.01em !important;
     }
 
+    /* Notification Content */
     .notification-content {
-        color: #5E5873 !important;
-        font-size: 14px !important;
-        line-height: 1.5 !important;
+        color: #6E6B7B !important;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        font-weight: 500 !important;
     }
 
+    /* Close Button */
+    .swal2-close,
     .notification-close {
-        color: #5E5873 !important;
-        opacity: 0.5 !important;
+        color: #B9B9C3 !important;
+        opacity: 0.7 !important;
+        transition: all 0.2s ease !important;
+        width: 32px !important;
+        height: 32px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 8px !important;
+        font-size: 24px !important;
+        cursor: pointer !important;
+        position: absolute !important;
+        top: 10px !important;
+        right: 10px !important;
+        z-index: 10 !important;
     }
 
+    .swal2-close:hover,
     .notification-close:hover {
         opacity: 1 !important;
+        background: rgba(234, 84, 85, 0.1) !important;
+        color: #ea5455 !important;
+        transform: scale(1.1) !important;
+    }
+    
+    [dir="rtl"] .swal2-close,
+    [dir="rtl"] .notification-close {
+        right: auto !important;
+        left: 10px !important;
     }
 
-    /* Dark Mode Support */
+    /* Progress Bar */
+    .swal2-timer-progress-bar {
+        background: linear-gradient(90deg, #7367F0 0%, #9E95F5 100%) !important;
+        height: 3px !important;
+    }
+
+    /* Hide animation */
+    .swal2-hide {
+        animation: fadeOut 0.3s ease-out forwards !important;
+    }
+
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(-20px) scale(0.9);
+        }
+    }
+
+    /* تأكد من إزالة الإشعار بعد الاختفاء */
+    .swal2-container.swal2-backdrop-hide {
+        display: none !important;
+    }
+
+    /* Container - تحديد الموضع بدقة */
+    .swal2-container.swal2-top-end {
+        position: fixed !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: auto !important;
+        left: auto !important;
+        z-index: 99999 !important;
+        pointer-events: none !important;
+        padding: 80px 20px 0 0 !important;
+        align-items: flex-start !important;
+        justify-content: flex-end !important;
+    }
+    
+    .swal2-container.swal2-top-end > .swal2-popup {
+        position: relative !important;
+        pointer-events: all !important;
+        z-index: 99999 !important;
+    }
+
+    /* ========================================
+       DARK MODE SUPPORT
+    ======================================== */
+    
     .dark-layout .notification-swal {
         background: #283046 !important;
         border-left-color: #7367F0 !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    }
+
+    .dark-layout .notification-swal:hover {
+        box-shadow: 0 12px 32px rgba(115, 103, 240, 0.4) !important;
     }
 
     .dark-layout .notification-title {
-        color: #7367F0 !important;
+        color: #D0D2D6 !important;
     }
 
     .dark-layout .notification-content {
@@ -69,12 +193,105 @@
     }
 
     .dark-layout .notification-close {
-        color: #B4B7BD !important;
+        color: #828D99 !important;
     }
 
-    /* SweetAlert2 Toast Progress Bar */
-    .swal2-timer-progress-bar {
-        background: #7367F0 !important;
+    .dark-layout .notification-close:hover {
+        background: rgba(115, 103, 240, 0.15) !important;
+        color: #7367F0 !important;
+    }
+
+    .dark-layout .notification-swal .swal2-image {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* ========================================
+       RTL SUPPORT
+    ======================================== */
+    
+    [dir="rtl"] .notification-swal {
+        border-left: none !important;
+        border-right: 4px solid #7367F0 !important;
+        padding-right: 1.5rem !important;
+        padding-left: 1.25rem !important;
+    }
+
+    [dir="rtl"] .notification-swal:hover {
+        transform: translateY(-4px) translateX(2px) !important;
+        border-right-width: 6px !important;
+        border-left-width: 0 !important;
+    }
+
+    [dir="rtl"] .swal2-container.swal2-top-end {
+        right: auto !important;
+        left: 0 !important;
+        padding: 80px 0 0 20px !important;
+        align-items: flex-start !important;
+        justify-content: flex-start !important;
+    }
+
+    /* ========================================
+       ANIMATION
+    ======================================== */
+    
+    @keyframes fadeInBounce {
+        0% {
+            transform: translateY(-100%) scale(0.8);
+            opacity: 0;
+        }
+        50% {
+            transform: translateY(10px) scale(1.05);
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+    }
+
+    @keyframes shake {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        10%, 30%, 50%, 70%, 90% {
+            transform: translateX(-5px);
+        }
+        20%, 40%, 60%, 80% {
+            transform: translateX(5px);
+        }
+    }
+
+    .notification-swal {
+        animation: fadeInBounce 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+
+    /* ========================================
+       RESPONSIVE
+    ======================================== */
+    
+    @media (max-width: 768px) {
+        .notification-swal {
+            min-width: 280px !important;
+            max-width: calc(100vw - 40px) !important;
+            padding: 1rem 1.25rem !important;
+        }
+
+        .swal2-container.swal2-top-end {
+            padding: 60px 10px 0 0 !important;
+        }
+
+        [dir="rtl"] .swal2-container.swal2-top-end {
+            padding: 60px 0 0 10px !important;
+        }
+
+        .notification-title {
+            font-size: 14px !important;
+        }
+
+        .notification-content {
+            font-size: 12px !important;
+        }
     }
 </style>
 
@@ -208,39 +425,61 @@
         });
 
         function showNotification(title, body, payload) {
-            let notificationConfig = {
-                title: title,
-                text: body,
-                position: 'top-end',
-                showConfirmButton: false,
-                showCloseButton: true,
-                timer: 6000,
-                toast: true,
-                onOpen: (toast) => {
-                    toast.addEventListener('click', () => {
-                        const url = payload && payload.data && payload.data.url ?
-                            payload.data.url :
-                            '/';
-                        window.location.href = url;
-                    });
-                },
+            const notificationUrl = payload && payload.data && payload.data.url ? payload.data.url : null;
+            const notificationImage = payload && payload.notification && payload.notification.image ? payload.notification.image : null;
+            const notificationType = payload && payload.data && payload.data.type ? payload.data.type : 'default';
 
-                customClass: {
-                    popup: 'notification-swal',
-                    title: 'notification-title',
-                    content: 'notification-content',
-                    closeButton: 'notification-close'
-                },
-                buttonsStyling: false
-            };
+            let avatarContent = null;
+            let avatarText = null;
 
-            if (payload.notification?.image) {
-                notificationConfig.imageUrl = payload.notification.image;
-                notificationConfig.imageWidth = 50;
-                notificationConfig.imageHeight = 50;
+            if (notificationImage) {
+                avatarContent = notificationImage;
+            } else {
+                avatarText = title.charAt(0).toUpperCase();
             }
 
-            Swal.fire(notificationConfig);
+            if (window.DashboardNotification && window.DashboardNotification.show) {
+                window.DashboardNotification.show({
+                    title: title,
+                    message: body,
+                    avatar: avatarContent,
+                    avatarText: avatarText,
+                    url: notificationUrl,
+                    type: notificationType,
+                    onClose: () => {
+                        markLatestNotificationAsRead();
+                    }
+                });
+            } else {
+                console.error('DashboardNotification not loaded');
+            }
+        }
+
+        // دالة لتحديد آخر إشعار كمقروء (الإشعار الذي تم استلامه للتو)
+        function markLatestNotificationAsRead() {
+            $.ajax({
+                url: '{{ route("admin.admins.notifications.markLatestAsRead") }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // تحديث عدد الإشعارات غير المقروءة
+                        let countNotify = $('#countNotify');
+                        if (response.unread_count > 0) {
+                            countNotify.text(response.unread_count);
+                            countNotify.data('num', response.unread_count);
+                            countNotify.show();
+                        } else {
+                            countNotify.hide();
+                        }
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error marking notification as read:', error);
+                }
+            });
         }
     @endif
 </script>

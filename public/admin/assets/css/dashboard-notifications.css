@@ -1,0 +1,359 @@
+/* ========================================
+   DASHBOARD NOTIFICATION SYSTEM
+   Modern SaaS Style - Floating Cards
+======================================== */
+
+#dashboard-notification-container {
+    position: fixed;
+    top: 70px;
+    left: 240px;
+    z-index: 9999;
+    pointer-events: none;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.dashboard-notification-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
+                0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    position: relative;
+    pointer-events: all;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-left: 4px solid #7367f0;
+    width: 380px;
+    opacity: 0;
+}
+
+.dashboard-notification-card:hover {
+    transform: translateY(-2px) translateX(-2px);
+    box-shadow: 0 12px 40px rgba(115, 103, 240, 0.2),
+                0 4px 12px rgba(115, 103, 240, 0.15);
+    border-left-width: 5px;
+}
+
+.dashboard-notification-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.dashboard-notification-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.dashboard-notification-content {
+    flex: 1;
+    min-width: 0;
+    padding-right: 32px;
+}
+
+.dashboard-notification-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2c2c2c;
+    margin: 0 0 6px 0;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+}
+
+.dashboard-notification-message {
+    font-size: 13px;
+    color: #6e6b7b;
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 500;
+}
+
+.dashboard-notification-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: #b9b9c3;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0;
+    z-index: 10;
+}
+
+.dashboard-notification-close:hover {
+    background: rgba(234, 84, 85, 0.1);
+    color: #ea5455;
+    transform: scale(1.15);
+}
+
+.dashboard-notification-close:active {
+    transform: scale(0.95);
+}
+
+/* ========================================
+   ANIMATIONS
+======================================== */
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+}
+
+.dashboard-notification-card.show {
+    animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.dashboard-notification-card.hide {
+    animation: slideOutLeft 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ========================================
+   DARK MODE
+======================================== */
+
+.dark-layout #dashboard-notification-container {
+    /* Position remains the same */
+}
+
+.dark-layout .dashboard-notification-card {
+    background: #283046;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                0 2px 8px rgba(0, 0, 0, 0.3);
+    border-left-color: #7367f0;
+}
+
+.dark-layout .dashboard-notification-card:hover {
+    box-shadow: 0 12px 40px rgba(115, 103, 240, 0.3),
+                0 4px 12px rgba(115, 103, 240, 0.25);
+}
+
+.dark-layout .dashboard-notification-title {
+    color: #d0d2d6;
+}
+
+.dark-layout .dashboard-notification-message {
+    color: #b4b7bd;
+}
+
+.dark-layout .dashboard-notification-close {
+    color: #828d99;
+}
+
+.dark-layout .dashboard-notification-close:hover {
+    background: rgba(115, 103, 240, 0.15);
+    color: #7367f0;
+}
+
+.dark-layout .dashboard-notification-avatar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   RTL SUPPORT
+======================================== */
+
+[dir="rtl"] #dashboard-notification-container {
+    left: auto;
+    right: 240px;
+}
+
+[dir="rtl"] .dashboard-notification-card {
+    border-left: none;
+    border-right: 4px solid #7367f0;
+}
+
+[dir="rtl"] .dashboard-notification-card:hover {
+    transform: translateY(-2px) translateX(2px);
+    border-right-width: 5px;
+}
+
+[dir="rtl"] .dashboard-notification-content {
+    padding-right: 0;
+    padding-left: 32px;
+}
+
+[dir="rtl"] .dashboard-notification-close {
+    right: auto;
+    left: 12px;
+}
+
+[dir="rtl"] @keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+[dir="rtl"] @keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 1200px) {
+    #dashboard-notification-container {
+        left: 260px;
+    }
+    
+    [dir="rtl"] #dashboard-notification-container {
+        right: 260px;
+    }
+    
+    .dashboard-notification-card {
+        width: 360px;
+    }
+}
+
+@media (max-width: 992px) {
+    #dashboard-notification-container {
+        left: 20px;
+    }
+    
+    [dir="rtl"] #dashboard-notification-container {
+        right: 20px;
+        left: auto;
+    }
+    
+    .dashboard-notification-card {
+        width: 340px;
+        padding: 14px 18px;
+    }
+    
+    .dashboard-notification-avatar {
+        width: 42px;
+        height: 42px;
+        font-size: 16px;
+    }
+    
+    .dashboard-notification-title {
+        font-size: 14px;
+    }
+    
+    .dashboard-notification-message {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    #dashboard-notification-container {
+        left: 12px;
+    }
+    
+    [dir="rtl"] #dashboard-notification-container {
+        right: 12px;
+        left: auto;
+    }
+    
+    .dashboard-notification-card {
+        width: calc(100vw - 24px);
+        max-width: 340px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+======================================== */
+
+.dashboard-notification-close:focus {
+    outline: 2px solid #7367f0;
+    outline-offset: 2px;
+}
+
+.dashboard-notification-card:focus-within {
+    outline: 2px solid #7367f0;
+    outline-offset: 2px;
+}
+
+/* ========================================
+   NOTIFICATION VARIANTS
+======================================== */
+
+.dashboard-notification-card.success {
+    border-left-color: #28c76f;
+}
+
+.dashboard-notification-card.warning {
+    border-left-color: #ff9f43;
+}
+
+.dashboard-notification-card.error {
+    border-left-color: #ea5455;
+}
+
+.dashboard-notification-card.info {
+    border-left-color: #00cfe8;
+}
+
+[dir="rtl"] .dashboard-notification-card.success {
+    border-right-color: #28c76f;
+}
+
+[dir="rtl"] .dashboard-notification-card.warning {
+    border-right-color: #ff9f43;
+}
+
+[dir="rtl"] .dashboard-notification-card.error {
+    border-right-color: #ea5455;
+}
+
+[dir="rtl"] .dashboard-notification-card.info {
+    border-right-color: #00cfe8;
+}

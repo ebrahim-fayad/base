@@ -23,6 +23,7 @@ class SendRequest extends FormRequest
             'body_ar'   => [Rule::requiredIf($this->type == 'notify'), 'nullable'],
             'body_en'   => [Rule::requiredIf($this->type == 'notify'), 'nullable'],
             'id'        => ['nullable', 'numeric'],
+            'url'       => ['nullable', 'url'],
         ];
     }
 

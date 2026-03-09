@@ -32,6 +32,15 @@
 
                                 <x-admin.notification.textarea name="body_en" col="6"
                                                                label="{{ __('admin.the_message_in_english') }}" />
+
+                                <div class="col-md-12 col-12">
+                                    <div class="form-group">
+                                        <label for="url">{{ __('admin.notification_url') }} ({{ __('admin.optional') }})</label>
+                                        <div class="controls">
+                                            <input type="url" name="url" class="form-control" placeholder="https://example.com" />
+                                        </div>
+                                    </div>
+                                </div>
                             </x-admin.notification.form>
                         </div>
 
