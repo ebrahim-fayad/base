@@ -703,6 +703,62 @@ body.dark-layout .table td > a {
   align-items: center;
   font-size: 16px;
   background: #f2eeee;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Dark Mode - الأيقونات واضحة */
+.dark-layout .product-action > span {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark-layout .product-action > span:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Light Mode - تحسين الأيقونات */
+.product-action > span.action-edit,
+.product-action > span.text-primary {
+  background: rgba(115, 103, 240, 0.1);
+}
+
+.product-action > span.action-edit:hover,
+.product-action > span.text-primary:hover {
+  background: rgba(115, 103, 240, 0.2);
+  transform: translateY(-2px);
+}
+
+.product-action > span.delete-row,
+.product-action > span.text-danger {
+  background: rgba(234, 84, 85, 0.1);
+}
+
+.product-action > span.delete-row:hover,
+.product-action > span.text-danger:hover {
+  background: rgba(234, 84, 85, 0.2);
+  transform: translateY(-2px);
+}
+
+/* تحسين لون الأيقونات نفسها */
+.product-action > span.action-edit i,
+.product-action > span.text-primary i {
+  color: #7367f0;
+}
+
+.product-action > span.delete-row i,
+.product-action > span.text-danger i {
+  color: #ea5455;
+}
+
+.dark-layout .product-action > span.action-edit i,
+.dark-layout .product-action > span.text-primary i {
+  color: #7367f0;
+}
+
+.dark-layout .product-action > span.delete-row i,
+.dark-layout .product-action > span.text-danger i {
+  color: #ea5455;
 }
 
 .btn-searchTable {
