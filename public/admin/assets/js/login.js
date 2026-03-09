@@ -251,9 +251,10 @@
             
             if (response.status === 'login') {
                 toastr.success(response.message);
+                // تقليل الوقت لتحسين تجربة المستخدم
                 setTimeout(() => {
-                    window.location.replace(response.url);
-                }, 1000);
+                    window.location.href = response.url;
+                }, 300);
             } else {
                 this.resetButton();
                 this.showFieldError('password', response.message);
@@ -273,8 +274,17 @@
 
         showFieldError(fieldName, message) {
             const input = $(`.form-horizontal input[name="${fieldName}"]`);
+            const formGroup = input.closest('.form-group');
+            
+            // إضافة class للـ input
             input.addClass('border-danger');
-            input.after(`<span class="text-danger">${message}</span>`);
+            
+            // إضافة رسالة الخطأ بعد الـ form-group (تحت الـ input والـ label)
+            if (formGroup.length) {
+                formGroup.append(`<span class="text-danger"><i class="fas fa-exclamation-circle"></i> ${message}</span>`);
+            } else {
+                input.after(`<span class="text-danger"><i class="fas fa-exclamation-circle"></i> ${message}</span>`);
+            }
         },
 
         clearErrors() {

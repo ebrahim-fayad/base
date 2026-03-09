@@ -8,6 +8,7 @@ return [
     'title_user_blocked' => 'Block',
     'body_user_blocked'  => 'Your Account Is Block From Administrative',
     'body_admin_user_blocked' => 'Your account has been blocked by the administration',
+    'title_admin_user_deleted' => 'Account Deleted',
     'body_admin_user_deleted' => 'Your account has been deleted by the administration',
 
     // Products Orders

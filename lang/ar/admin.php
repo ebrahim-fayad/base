@@ -70,6 +70,8 @@ return [
     'update_successfully' => 'تم التحديث بنجاح',
     'deleted_successfully' => 'تم الحذف بنجاح',
     'deleted' => 'تم الحذف بنجاح',
+    'restored_successfully' => 'تم استرجاع الحساب بنجاح',
+    'admin_not_deleted' => 'الحساب غير محذوف',
     'saved_successfully' => 'تم الحفظ بنجاح',
     'send_successfully' => 'تم الارسال بنجاح',
     'the_selected_has_been_successfully_deleted' => 'تم حذف المحدد بنجاح',
@@ -105,6 +107,8 @@ return [
     'just_allows_the_numbers' => 'مسموح بالارقام فقط',
     'password_must_contain_letters_symbols_and_numbers' => 'يجب أن لا تقل كلمة المرور على 6 أرقام أو أحروف صغيرة وكبيرة و علامات خاصة',
     'incorrect_password' => 'كلمة السر غير صحيحة',
+    'email_not_found' => 'البريد الإلكتروني غير موجود',
+    'account_deleted_by_admin' => 'لقد تم حذف حسابك من قبل الإدارة',
     'invalid_number_step' => 'يرجى إدخال قيمة صالحة. أقرب قيمتين صالحتين هما :min و :max.',
     'icon_should_start_with_fab' => 'يجب أن تبدأ الأيقونه ب "fab".',
     'please_enter_at_least_3_characters' => 'من فضلك أدخل على الأقل 3 أحرف',
@@ -142,6 +146,7 @@ return [
     'unblocked' => 'تم الغاء الحظر بنجاح',
     'is_blocked' => 'محظور',
     'not_blocked' => 'غير محظور',
+    'account_deleted' => 'تم حذف حسابك من قبل الإدارة',
 
     // Profile
     'main_data' => 'البيانات الاساسية',

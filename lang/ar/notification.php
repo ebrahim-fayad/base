@@ -9,6 +9,7 @@ return [
     'title_user_blocked'        => 'حظر',
     'body_user_blocked'         => 'تم حظرك من قبل الادارة',
     'body_admin_user_blocked'   => 'تم حظرك من قبل الادارة',
+    'title_admin_user_deleted'  => 'حذف الحساب',
     'body_admin_user_deleted'   => 'تم حذف حسابك من قبل الادارة',
     // Normal Orders
     'title_' . NotificationTypeEnum::ORDER_WAS_PAID->value => 'تم دفع رسوم الطلب  ',

@@ -23,7 +23,14 @@ class BaseNotification extends Notification
     {
         $this->data['guard'] = $notifiable->guard;
 
-        SendFirebaseNotificationToMultipleJob::dispatch($notifiable, $this->data);
+        // إذا كان الإشعار للحذف أو الحظر، نرسله بشكل متزامن
+        if (isset($this->data['type']) && 
+            in_array($this->data['type'], ['admin_user_blocked', 'admin_user_deleted', 'block'])) {
+            SendFirebaseNotificationToMultipleJob::dispatchSync($notifiable, $this->data);
+        } else {
+            SendFirebaseNotificationToMultipleJob::dispatch($notifiable, $this->data);
+        }
+        
         return $this->data;
     }
 }

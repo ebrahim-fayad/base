@@ -64,4 +64,11 @@ class Admin extends AuthBaseModel {
       default     => data_get($this, $column),
     };
   }
+  public static function boot()
+  {
+    parent::boot();
+    static::deleted(function ($model) {
+      $model->deleteFile($model->attributes['image'], static::IMAGEPATH);
+    });
+  }
 }

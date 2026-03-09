@@ -87,6 +87,13 @@ Route::post('delete-all-admins', [
     'title' => 'admins.delete_all',
 ]);
 
+#restore
+Route::post('admins/{id}/restore', [
+    'uses' => $controller . '@restore',
+    'as' => 'admins.restore',
+    'title' => 'admins.restore',
+]);
+
 # get notification count
 Route::get('notification-count', [
     'uses' => $controller . '@getNotificationCount',

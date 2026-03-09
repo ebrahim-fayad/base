@@ -16,11 +16,11 @@
 /* Wrapper: لا يتوسع مع الجدول عشان الأسكرول يظهر (overflow: hidden يمنع التوسع) */
 .table-container,
 .table-scroll-container {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     min-width: 0;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible !important;
     display: block;
 }
 
@@ -33,23 +33,24 @@ section.dashboard-shell > * {
 /* الحاوية ما تتوسعش مع الجدول عشان .table-scroll ياخد عرض ثابت ويطلع الأسكرول */
 .table-container .table_content_append,
 .table-scroll-container .table_content_append {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     min-width: 0;
     display: block;
-    overflow: hidden;
+    overflow: visible !important;
 }
 
 /* Scroll area: على الشاشات الكبيرة الجدول ياخد العرض كامل، على الصغيرة يطلع أسكرول */
 .table-scroll {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
     min-width: 0;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: #c0c0c0 #e8e8e8;
+    display: block;
 }
 
 /* افتراضي: الجدول ياخد عرض الصفحة كامل (شاشات كبيرة) */
@@ -57,8 +58,10 @@ section.dashboard-shell > * {
 .table-scroll table.table,
 .table-scroll .data-table {
     width: 100%;
-    min-width: 0;
+    min-width: 100%;
+    max-width: 100%;
     table-layout: auto;
+    margin: 0;
 }
 
 /* شاشات صغيرة: الجدول يفيض ويظهر الأسكرول الأفقي عشان يشوف باقي المحتوى */
@@ -234,7 +237,9 @@ body .table {
     background: none!important;
     /* border: 11px solid #f2eeee; */
     box-shadow: 0px 0px 50px #00000022;
-    background: #fff
+    background: #fff;
+    width: 100% !important;
+    max-width: 100% !important;
     /* border-top: none; */
 }
 

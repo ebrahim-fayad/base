@@ -3,6 +3,13 @@
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/app-assets/vendors/css/extensions/sweetalert2.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin/index_page.css') }}">
+    <style>
+        /* إصلاح عرض الجدول */
+        .content-body {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    </style>
 @endsection
 
 @section('content')

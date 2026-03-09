@@ -72,6 +72,8 @@ return [
     'update_successfully' => 'Updated successfully',
     'deleted_successfully' => 'Deleted successfully',
     'deleted' => 'Deleted successfully',
+    'restored_successfully' => 'Account restored successfully',
+    'admin_not_deleted' => 'Account is not deleted',
     'saved_successfully' => 'Saved successfully',
     'send_successfully' => 'Sent successfully',
     'the_selected_has_been_successfully_deleted' => 'The selected item has been deleted successfully',
@@ -107,6 +109,8 @@ return [
     'just_allows_the_numbers' => 'Only numbers are allowed',
     'password_must_contain_letters_symbols_and_numbers' => 'Password must contain at least 6 characters including uppercase, lowercase, numbers and special characters',
     'incorrect_password' => 'Incorrect Password',
+    'email_not_found' => 'Email not found',
+    'account_deleted_by_admin' => 'Your account has been deleted by the administration',
     'invalid_number_step' => 'Please enter a valid value. The two nearest valid values are :min and :max.',
     'icon_should_start_with_fab' => 'The icon must start with "fab".',
     'please_enter_at_least_3_characters' => 'Please enter at least 3 characters',
@@ -144,6 +148,7 @@ return [
     'unblocked' => 'Unblocked successfully',
     'is_blocked' => 'Blocked',
     'not_blocked' => 'Not blocked',
+    'account_deleted' => 'Your account has been deleted by the administration',
 
     // Profile
     'main_data' => 'Main Data',

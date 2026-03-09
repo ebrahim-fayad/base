@@ -72,4 +72,38 @@ class AdminController extends AdminBasicController
         $data = $notificationService->deleteSelected(user: auth('admin')->user(), request: $request);
         return $this->successMsg($data['msg']);
     }
+
+    public function restore(Request $request, $id)
+    {
+        try {
+            // البحث عن الـ Admin المحذوف
+            $admin = Admin::withTrashed()->findOrFail($id);
+            
+            if (!$admin->trashed()) {
+                return response()->json([
+                    'key' => 'error',
+                    'msg' => __('admin.admin_not_deleted')
+                ], 400);
+            }
+            
+            // حذف جميع الـ tokens القديمة
+            $admin->tokens()->delete();
+            
+            // حذف جميع الأجهزة القديمة
+            $admin->devices()->delete();
+            
+            // استرجاع الحساب
+            $admin->restore();
+            
+            return response()->json([
+                'key' => 'success',
+                'msg' => __('admin.restored_successfully')
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'key' => 'error',
+                'msg' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

@@ -397,9 +397,9 @@ body.dark-layout .dataTables_wrapper .dt-buttons .btn-secondary {
 
 /* add overflow-auto to section table*/
 
-.table_content_append .position-relative {
+/* .table_content_append .position-relative {
   overflow: auto;
-}
+} */
 
 @media (max-width: 1024px) {
   .table_content_append .btn {

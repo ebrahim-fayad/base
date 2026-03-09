@@ -62,6 +62,7 @@ trait CrudTrait
 
             // إرسال إشعار للمستخدم قبل الحذف (Admin, Provider, User)
             if ($record instanceof AuthBaseModel) {
+                // إرسال الإشعار أولاً
                 Notification::send(
                     $record,
                     new GeneralNotification(
@@ -69,6 +70,17 @@ trait CrudTrait
                         NotificationTypeEnum::Admin_User_Delete->value
                     )
                 );
+                
+                // حذف جميع الـ tokens الخاصة بالمستخدم
+                $record->tokens()->delete();
+                
+                // حذف جميع الأجهزة المسجلة
+                $record->devices()->delete();
+                
+                // حذف جميع الـ sessions الخاصة بالمستخدم
+                \DB::table('sessions')
+                    ->where('user_id', $record->id)
+                    ->delete();
             }
 
             // If no related data exists, delete the record
@@ -104,6 +116,7 @@ trait CrudTrait
                     }
                 }
                 if ($record instanceof AuthBaseModel) {
+                    // إرسال الإشعار أولاً
                     Notification::send(
                         $record,
                         new GeneralNotification(
@@ -111,6 +124,17 @@ trait CrudTrait
                             NotificationTypeEnum::Admin_User_Delete->value
                         )
                     );
+
+                    // حذف جميع الـ tokens الخاصة بالمستخدم
+                    $record->tokens()->delete();
+
+                    // حذف جميع الأجهزة المسجلة
+                    $record->devices()->delete();
+                    
+                    // حذف جميع الـ sessions الخاصة بالمستخدم
+                    \DB::table('sessions')
+                        ->where('user_id', $record->id)
+                        ->delete();
                 }
                 // If no related data exists, delete the record
                 $record->delete();
