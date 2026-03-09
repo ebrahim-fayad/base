@@ -28,6 +28,12 @@ class AuthController extends Controller {
       }
 
       session()->put('lang', 'ar');
+      $lang = 'ar';
+    }
+
+    if (auth()->guard('admin')->check()) {
+      $admin = auth('admin')->user();
+      $admin->devices()->update(['lang' => $lang]);
     }
 
     // If AJAX request, return JSON response
@@ -55,7 +61,7 @@ class AuthController extends Controller {
     if (auth()->guard('admin')->attempt(['email' => $request->email, 'password' => $request->password , 'is_blocked' => 0], $remember)) {
 
         RateLimiter::clear($this->throttleKey());
-        $lang=session('lang');
+        $lang = session('lang', 'ar');
         if($request->device_id){
         $admin = auth('admin')->user();
         $admin->devices()->updateOrCreate([
