@@ -716,4 +716,5 @@ return [
     'cannot_delete_has_related_data_and_cannot_be_deleted' => 'لا يمكن حذف العميل لديه بيانات مرتبطة ولا يمكن حذفه',
     'cannot_delete_has_active_orders' => 'لا يمكن حذف العميل لديه طلبات مفعلة',
     'approvement_status'=>'حالة الموافقة',
+    'ok' => 'موافق',
 ];

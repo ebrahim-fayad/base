@@ -121,15 +121,29 @@
 
     @if ($authType == 'admin')
         messaging.onMessage(function(payload) {
-            // إذا كان الإشعار لحظر الأدمن → تسجيل خروج فوري
+            // إذا كان الإشعار لحظر أو حذف الأدمن → تسجيل خروج فوري
             let dataType = payload['data'] && payload['data']['type'] ? payload['data']['type'] : null;
-            if (dataType === 'block') {
+            if (dataType === 'block' || dataType === 'admin_user_blocked' || dataType === 'admin_user_deleted') {
+                // تشغيل صوت الإشعار
+                let soundNotify = document.getElementById("soundNotify");
+                if (soundNotify) {
+                    soundNotify.play().catch(function(error) {
+                        console.log('Error playing notification sound:', error);
+                    });
+                }
+                
+                // تحديد الرسالة حسب النوع
+                let messageTitle = dataType === 'admin_user_deleted' ? '{{ __("notification.title_admin_user_deleted") }}' : '{{ __("auth.blocked") }}';
+                let messageText = dataType === 'admin_user_deleted' ? '{{ __("notification.body_admin_user_deleted") }}' : '{{ __("notification.body_admin_user_blocked") }}';
+                
+                // عرض رسالة الحظر أو الحذف
                 Swal.fire({
                     icon: 'warning',
-                    title: '{{ __("auth.blocked") }}',
-                    text: '{{ __("notification.body_user_blocked") }}',
-                    confirmButtonText: '{{ __("site.logout") }}',
-                    allowOutsideClick: false
+                    title: messageTitle,
+                    text: messageText,
+                    confirmButtonText: '{{ __("admin.ok") }}',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
                 }).then(() => {
                     window.location.href = '{{ route("admin.logout") }}';
                 });

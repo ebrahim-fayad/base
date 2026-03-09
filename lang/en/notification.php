@@ -7,6 +7,8 @@ return [
     'title_admin_notify' => 'Administrative notice',
     'title_user_blocked' => 'Block',
     'body_user_blocked'  => 'Your Account Is Block From Administrative',
+    'body_admin_user_blocked' => 'Your account has been blocked by the administration',
+    'body_admin_user_deleted' => 'Your account has been deleted by the administration',
 
     // Products Orders
     'title_' . NotificationTypeEnum::ORDER_WAS_PAID->value => 'Order payment completed',
@@ -96,6 +98,8 @@ return [
 
     'title_'.NotificationTypeEnum::Admin_User_Block->value => 'User blocked',
     'body_'.NotificationTypeEnum::Admin_User_Block->value => 'You have been blocked by the administration',
+    'title_'.NotificationTypeEnum::Admin_User_Delete->value => 'Account Deleted',
+    'body_'.NotificationTypeEnum::Admin_User_Delete->value => 'Your account has been deleted by the administration. You will not be able to log in again',
 
     'title_' . NotificationTypeEnum::Order_Bank_Transfer->value => 'Order bank transfer sent',
     'body_'  . NotificationTypeEnum::Order_Bank_Transfer->value => 'User :user_name has sent a bank transfer for order #:order_num. Please check the attached image',

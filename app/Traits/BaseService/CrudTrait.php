@@ -2,7 +2,11 @@
 
 namespace App\Traits\BaseService;
 
+use App\Enums\NotificationTypeEnum;
+use App\Models\Core\AuthBaseModel;
+use App\Notifications\GeneralNotification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Notification;
 
 trait CrudTrait
 {
@@ -56,6 +60,17 @@ trait CrudTrait
                 }
             }
 
+            // إرسال إشعار للمستخدم قبل الحذف (Admin, Provider, User)
+            if ($record instanceof AuthBaseModel) {
+                Notification::send(
+                    $record,
+                    new GeneralNotification(
+                        $record,
+                        NotificationTypeEnum::Admin_User_Delete->value
+                    )
+                );
+            }
+
             // If no related data exists, delete the record
             $record->delete();
 
@@ -88,7 +103,15 @@ trait CrudTrait
                         break 2; // Exit both loops if related data is found
                     }
                 }
-
+                if ($record instanceof AuthBaseModel) {
+                    Notification::send(
+                        $record,
+                        new GeneralNotification(
+                            $record,
+                            NotificationTypeEnum::Admin_User_Delete->value
+                        )
+                    );
+                }
                 // If no related data exists, delete the record
                 $record->delete();
             }

@@ -18,6 +18,7 @@ enum NotificationTypeEnum: string
     case Provider_Approved = 'provider_approved';
     case Provider_Rejected = 'provider_rejected';
     case Admin_User_Block = 'admin_user_blocked';
+    case Admin_User_Delete = 'admin_user_deleted';
     case Provider_Update_Request = 'provider_update_request';
     case PROVIDER_UPDATE_ACCEPTED = 'provider_update_accepted_request';
     case PROVIDER_UPDATE_REJECTED = 'provider_update_rejected_request';

@@ -716,4 +716,5 @@ return [
     'cannot_delete_has_related_data_and_cannot_be_deleted' => 'Cannot delete client has related data and cannot be deleted',
     'cannot_delete_has_active_orders' => 'Cannot delete client has active orders',
     'approvement_status' => 'Approvement Status',
+    'ok' => 'OK',
 ];

@@ -8,6 +8,8 @@ return [
     'title_admin_notify' => 'اشعار اداري ',
     'title_user_blocked'        => 'حظر',
     'body_user_blocked'         => 'تم حظرك من قبل الادارة',
+    'body_admin_user_blocked'   => 'تم حظرك من قبل الادارة',
+    'body_admin_user_deleted'   => 'تم حذف حسابك من قبل الادارة',
     // Normal Orders
     'title_' . NotificationTypeEnum::ORDER_WAS_PAID->value => 'تم دفع رسوم الطلب  ',
     'body_' . NotificationTypeEnum::ORDER_WAS_PAID->value  => ' قام العميل بدفع رسوم الطلب رقم  (  :order_num )',
@@ -102,6 +104,8 @@ return [
     'body_'.NotificationTypeEnum::Order_Fully_Paid->value => 'تم دفع الفاتورة لهذا الطلب بالكامل من قبل العميل، رقم الطلب (:order_num)',
     'title_'.NotificationTypeEnum::Admin_User_Block->value => 'تم حظر المستخدم',
     'body_'.NotificationTypeEnum::Admin_User_Block->value => 'تم حظرك من قبل الادارة',
+    'title_'.NotificationTypeEnum::Admin_User_Delete->value => 'تم حذف حسابك',
+    'body_'.NotificationTypeEnum::Admin_User_Delete->value => 'تم حذف حسابك من قبل الادارة، لن تتمكن من تسجيل الدخول مرة أخرى',
 
     'title_' . NotificationTypeEnum::Order_Bank_Transfer->value => 'تم إرسال حوالة بنكية للطلب',
     'body_'  . NotificationTypeEnum::Order_Bank_Transfer->value => 'قام المستخدم :user_name بإرسال حوالة بنكية للطلب رقم :order_num، يرجى التحقق من الصورة المرفقة.',

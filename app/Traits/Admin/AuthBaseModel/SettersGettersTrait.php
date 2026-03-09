@@ -50,4 +50,16 @@ trait SettersGettersTrait
         }
     }
 
+    public function getLangAttribute(): string
+    {
+        // إذا كان لديه جهاز مسجل، استخدم لغة الجهاز
+        $device = $this->devices()->latest()->first();
+        if ($device && $device->lang) {
+            return $device->lang;
+        }
+        
+        // إذا لم يكن لديه جهاز، استخدم اللغة الافتراضية
+        return session('lang', 'ar');
+    }
+
 }

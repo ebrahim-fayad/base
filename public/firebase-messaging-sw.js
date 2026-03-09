@@ -21,6 +21,14 @@ const messaging = firebase.messaging();
 
 messaging.setBackgroundMessageHandler(function(payload) {
     console.log('[firebase-messaging-sw.js] Received background message ', payload);
+    
+    // إذا كان الإشعار لحظر أو حذف الأدمن، لا نعرض notification
+    // لأن الصفحة ستتعامل معه عند فتحها
+    if (payload.data && (payload.data.type === 'block' || payload.data.type === 'admin_user_blocked' || payload.data.type === 'admin_user_deleted')) {
+        // لا نعرض notification في الخلفية، سيتم التعامل معه عند فتح الصفحة
+        return Promise.resolve();
+    }
+    
     // Customize notification here
     const notificationTitle = payload.data.title;
     const notificationOptions = {
