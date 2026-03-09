@@ -1,0 +1,20 @@
+{
+    "name": "figma-sync",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "figma:sync": "node sync-figma.js",
+        "figma:spec": "node build-spec.js",
+        "figma:all": "node sync-figma.js && node build-spec.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "dependencies": {
+        "axios": "^1.13.6",
+        "dotenv": "^16.4.5"
+    }
+}
