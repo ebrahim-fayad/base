@@ -162,4 +162,47 @@ class AdminController extends AdminBasicController
             ], 500);
         }
     }
+
+    public function getNotificationCount()
+    {
+        try {
+            $unreadCount = auth('admin')->user()->unreadNotifications()->count();
+            
+            return response()->json([
+                'success' => true,
+                'count' => $unreadCount
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function translateNotification(Request $request)
+    {
+        try {
+            $type = $request->input('type');
+            $locale = $request->input('locale', app()->getLocale());
+            
+            // إنشاء مصفوفة البيانات من الـ request
+            $data = $request->except(['type', 'locale', '_token']);
+            
+            // الحصول على الترجمة
+            $title = __("notification.title_{$type}", $data, $locale);
+            $body = __("notification.body_{$type}", $data, $locale);
+            
+            return response()->json([
+                'success' => true,
+                'title' => $title,
+                'body' => $body
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

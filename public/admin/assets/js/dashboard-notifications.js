@@ -22,7 +22,7 @@
             avatarText = null,
             url = null,
             type = 'default',
-            onClose = null
+            onClickClose = null
         } = options;
 
         const card = document.createElement('div');
@@ -48,7 +48,9 @@
         const closeButton = card.querySelector('.dashboard-notification-close');
         closeButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            closeNotification(card, onClose);
+            console.log('Close button clicked - just hiding notification');
+            // فقط إخفاء الإشعار بدون استدعاء onClickClose
+            closeNotification(card, null, null);
         });
 
         if (url) {
@@ -57,12 +59,13 @@
                 if (!e.target.closest('.dashboard-notification-close')) {
                     e.preventDefault();
                     e.stopPropagation();
+                    console.log('Notification card clicked, navigating to:', url);
                     
                     closeNotification(card, () => {
                         setTimeout(() => {
                             window.location.href = url;
                         }, 100);
-                    });
+                    }, onClickClose);
                 }
             });
         }
@@ -89,15 +92,19 @@
 
         activeNotifications.push(card);
 
-        autoHideNotification(card, options.onClose);
+        // Auto-hide without marking as read
+        autoHideNotification(card);
 
         return card;
     }
 
     /**
      * Close notification with animation
+     * @param {HTMLElement} card - The notification card element
+     * @param {Function} callback - Callback after close animation (for navigation, etc.)
+     * @param {Function} onClickClose - Callback for marking as read (only on user interaction)
      */
-    function closeNotification(card, callback) {
+    function closeNotification(card, callback, onClickClose) {
         if (!card || !card.parentElement) return;
 
         card.classList.remove('show');
@@ -115,15 +122,19 @@
             if (callback) {
                 callback();
             }
+            if (onClickClose) {
+                onClickClose();
+            }
         }, 300);
     }
 
     /**
-     * Auto hide notification after timeout
+     * Auto hide notification after timeout (without marking as read)
      */
-    function autoHideNotification(card, onClose) {
+    function autoHideNotification(card) {
         setTimeout(() => {
-            closeNotification(card, onClose);
+            console.log('Auto-hiding notification after timeout (not marking as read)');
+            closeNotification(card, null, null);
         }, notificationTimeout);
     }
 

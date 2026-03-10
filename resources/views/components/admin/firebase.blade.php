@@ -372,7 +372,9 @@
             let newCount = currentCount + 1;
             countNotify.text(newCount);
             countNotify.data('num', newCount);
-            countNotify.show();
+            if (newCount > 0) {
+                countNotify.show();
+            }
             let x = document.getElementById("soundNotify");
             if (x) {
                 x.play();
@@ -446,7 +448,8 @@
                     avatarText: avatarText,
                     url: notificationUrl,
                     type: notificationType,
-                    onClose: () => {
+                    onClickClose: () => {
+                        // يتم استدعاء هذا فقط عند الضغط على الإشعار أو زر X
                         markLatestNotificationAsRead();
                     }
                 });
@@ -465,6 +468,7 @@
                 },
                 success: function(response) {
                     if (response.success) {
+                        console.log('Notification marked as read. Unread count:', response.unread_count);
                         // تحديث عدد الإشعارات غير المقروءة
                         let countNotify = $('#countNotify');
                         if (response.unread_count > 0) {
@@ -472,6 +476,8 @@
                             countNotify.data('num', response.unread_count);
                             countNotify.show();
                         } else {
+                            countNotify.text('0');
+                            countNotify.data('num', 0);
                             countNotify.hide();
                         }
                     }
