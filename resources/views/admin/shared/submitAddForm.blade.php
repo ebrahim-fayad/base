@@ -1,33 +1,82 @@
 <script>
+    window.formRequestLocks = window.formRequestLocks || {};
+
+    function setButtonLoadingState($button) {
+        if (!$button || !$button.length) {
+            return;
+        }
+
+        if (!$button.data('original-html')) {
+            $button.data('original-html', $button.html());
+        }
+
+        $button
+            .html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>')
+            .prop('disabled', true)
+            .addClass('is-loading');
+    }
+
+    function resetButtonLoadingState($button) {
+        if (!$button || !$button.length) {
+            return;
+        }
+
+        var originalHtml = $button.data('original-html');
+        if (originalHtml) {
+            $button.html(originalHtml);
+        }
+
+        $button.prop('disabled', false).removeClass('is-loading');
+    }
+
     $(document).ready(function () {
         $(document).on('submit', '.store', function (e) {
             e.preventDefault();
-            var url = $(this).attr('action')
+
+            var $form = $(this);
+            var key = ($form.attr('action') || '') + '::' + ($form.attr('method') || 'POST');
+            var now = Date.now();
+
+            // Optional safety throttle: ignore submits within 2s for same form
+            if (window.formRequestLocks[key] && now - window.formRequestLocks[key] < 2000) {
+                return;
+            }
+
+            if ($form.data('is-submitting')) {
+                return;
+            }
+
+            $form.data('is-submitting', true);
+            window.formRequestLocks[key] = now;
+
+            var $submitButton = $form.find('.submit_button');
+            setButtonLoadingState($submitButton);
+
+            var url = $form.attr('action');
+
             $.ajax({
                 url: url,
                 method: 'post',
-                data: new FormData($(this)[0]),
+                data: new FormData($form[0]),
                 dataType: 'json',
                 processData: false,
                 contentType: false,
                 beforeSend: function () {
-                    $(".submit_button").html(
-                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'
-                    ).attr('disabled', true)
                     // Clear jqBootstrapValidation messages
-                    $('.store .help-block').remove()
-                    $('.store .controls').find('.help-block').remove()
-                    $('.store .controls').find('small').remove()
-                    $('.store .controls').find('.invalid-feedback').remove()
-                    $('.store input').removeClass('is-invalid')
-                    $('.store select').removeClass('is-invalid')
-                    $('.store textarea').removeClass('is-invalid')
+                    $form.find('.help-block').remove();
+                    $form.find('.controls').find('.help-block').remove();
+                    $form.find('.controls').find('small').remove();
+                    $form.find('.controls').find('.invalid-feedback').remove();
+                    $form.find('input').removeClass('is-invalid');
+                    $form.find('select').removeClass('is-invalid');
+                    $form.find('textarea').removeClass('is-invalid');
                 },
                 success: function (response) {
-                    $(".text-danger").remove()
-                    $('.store input').removeClass('border-danger')
-                    $(".submit_button").html("{{ __('admin.add') }}").attr(
-                        'disabled', false)
+                    $(".text-danger").remove();
+                    $form.find('input').removeClass('border-danger');
+
+                    resetButtonLoadingState($submitButton);
+                    $form.data('is-submitting', false);
 
                     if (response.key !== 'unauthorized') {
                         Swal.fire({
@@ -38,75 +87,76 @@
                             timer: 1500,
                             confirmButtonClass: 'btn btn-primary',
                             buttonsStyling: false,
-                        })
+                        });
                     }
 
                     setTimeout(function () {
-                        window.location.replace(response.url)
+                        window.location.replace(response.url);
                     }, 1000);
                 },
                 error: function (xhr) {
-                    $(".submit_button").html("{{ __('admin.add') }}").attr(
-                        'disabled', false)
+                    resetButtonLoadingState($submitButton);
+                    $form.data('is-submitting', false);
+                    window.formRequestLocks[key] = Date.now();
+
                     // Clear all validation messages (both client-side and server-side)
-                    $(".text-danger").remove()
-                    $('.store .help-block').remove()
-                    $('.store .controls').find('.help-block').remove()
-                    $('.store .controls').find('small').remove()
-                    $('.store .controls').find('.invalid-feedback').remove()
-                    $('.store input').removeClass('border-danger').removeClass('is-invalid')
-                    $('.store select').removeClass('border-danger').removeClass('is-invalid')
-                    $('.store textarea').removeClass('border-danger').removeClass('is-invalid')
+                    $(".text-danger").remove();
+                    $form.find('.help-block').remove();
+                    $form.find('.controls').find('.help-block').remove();
+                    $form.find('.controls').find('small').remove();
+                    $form.find('.controls').find('.invalid-feedback').remove();
+                    $form.find('input').removeClass('border-danger').removeClass('is-invalid');
+                    $form.find('select').removeClass('border-danger').removeClass('is-invalid');
+                    $form.find('textarea').removeClass('border-danger').removeClass('is-invalid');
 
                     $.each(xhr.responseJSON.errors, function (key, value) {
                         var message = Array.isArray(value) ? value[0] : value;
-                        // if kay has "." it means that input has two languages do this action to handle input name
+                        // if key has "." it means that input has two languages do this action to handle input name
                         if (key.indexOf(".") >= 0) {
-                            var split = key.split('.')
-                            key = split[0] + '\\[' + split[1] + '\\]'
+                            var split = key.split('.');
+                            key = split[0] + '\\[' + split[1] + '\\]';
                         }
 
-                        $('.store .error.' + key).append(
-                            `<span class="mt-5 text-danger">${message}</span>`);
-
+                        $form.find('.error.' + key).append(
+                            `<span class="mt-5 text-danger">${message}</span>`
+                        );
 
                         // file inputs (image, logo, commercial_image)
                         if (key == 'image' || key == 'logo' || key == 'commercial_image') {
-                            $('.store input[name^=' + key + ']').addClass(
-                                'border-danger')
-                            $('.store input[name^=' + key + '][type=file]').closest(
-                                '.col-12')
+                            $form.find('input[name^=' + key + ']').addClass('border-danger');
+                            $form
+                                .find('input[name^=' + key + '][type=file]')
+                                .closest('.col-12')
                                 .after(
                                     `<p class="text-danger text-center" style="margin-top: -10px">${message}</p>`
                                 );
                         } else {
-                            $('.store input[name^=' + key + ']').addClass(
-                                'border-danger')
-                            $('.store input[name^=' + key + '][type=file]').after(
-                                `<span class="text-danger">${message}</span>`);
+                            $form.find('input[name^=' + key + ']').addClass('border-danger');
+                            $form
+                                .find('input[name^=' + key + '][type=file]')
+                                .after(`<span class="text-danger">${message}</span>`);
                         }
 
-
                         // normal inputs
-                        $('.store input[name^=' + key + ']').addClass(
-                            'border-danger')
-                        $('.store input[name=' + key + '][type!=file]').after(
-                            `<span class="text-danger">${message}</span>`);
+                        $form.find('input[name^=' + key + ']').addClass('border-danger');
+                        $form
+                            .find('input[name=' + key + '][type!=file]')
+                            .after(`<span class="text-danger">${message}</span>`);
 
                         // for textarea
-                        $('.store textarea[name^=' + key + ']').addClass(
-                            'border-danger')
-                        $('.store textarea[name^=' + key + ']').after(
-                            `<span class="mt-1 text-danger">${message}</span>`);
+                        $form.find('textarea[name^=' + key + ']').addClass('border-danger');
+                        $form
+                            .find('textarea[name^=' + key + ']')
+                            .after(`<span class="mt-1 text-danger">${message}</span>`);
+
                         // for select input
-                        $('.store select[name^=' + key + ']').addClass(
-                            'border-danger')
-                        $('.store select[name^=' + key + ']').after(
-                            `<span class="mt-1 text-danger">${message}</span>`);
+                        $form.find('select[name^=' + key + ']').addClass('border-danger');
+                        $form
+                            .find('select[name^=' + key + ']')
+                            .after(`<span class="mt-1 text-danger">${message}</span>`);
                     });
                 },
             });
-
         });
     });
 </script>
