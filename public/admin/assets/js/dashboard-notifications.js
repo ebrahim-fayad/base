@@ -1,18 +1,18 @@
 /**
  * ========================================
  * DASHBOARD NOTIFICATION SYSTEM
- * Modern SaaS Style - Floating Cards
+ * Modern SaaS Style - Rocket Push Animation
  * ========================================
  */
 
 (function() {
     'use strict';
 
-    const notificationTimeout = 6000;
+    const notificationTimeout = 4000;
     let activeNotifications = [];
 
     /**
-     * Create notification card element
+     * Create notification card element with rocket
      */
     function createNotification(options) {
         const {
@@ -48,9 +48,27 @@
         const closeButton = card.querySelector('.dashboard-notification-close');
         closeButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            console.log('Close button clicked - just hiding notification');
-            // فقط إخفاء الإشعار بدون استدعاء onClickClose
             closeNotification(card, null, null);
+        });
+
+        card.addEventListener('mouseenter', () => {
+            if (card.autoHideTimeout) {
+                clearTimeout(card.autoHideTimeout);
+                card.autoHideTimeout = null;
+            }
+        });
+
+        card.addEventListener('mouseleave', () => {
+            const remainingTime = 5000;
+            card.autoHideTimeout = setTimeout(() => {
+                if (card.parentElement) {
+                    card.remove();
+                }
+                const index = activeNotifications.indexOf(card);
+                if (index > -1) {
+                    activeNotifications.splice(index, 1);
+                }
+            }, remainingTime);
         });
 
         if (url) {
@@ -59,7 +77,6 @@
                 if (!e.target.closest('.dashboard-notification-close')) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('Notification card clicked, navigating to:', url);
                     
                     closeNotification(card, () => {
                         setTimeout(() => {
@@ -92,7 +109,6 @@
 
         activeNotifications.push(card);
 
-        // Auto-hide without marking as read
         autoHideNotification(card);
 
         return card;
@@ -100,9 +116,6 @@
 
     /**
      * Close notification with animation
-     * @param {HTMLElement} card - The notification card element
-     * @param {Function} callback - Callback after close animation (for navigation, etc.)
-     * @param {Function} onClickClose - Callback for marking as read (only on user interaction)
      */
     function closeNotification(card, callback, onClickClose) {
         if (!card || !card.parentElement) return;
@@ -129,13 +142,18 @@
     }
 
     /**
-     * Auto hide notification after timeout (without marking as read)
+     * Auto hide notification after timeout
      */
     function autoHideNotification(card) {
-        setTimeout(() => {
-            console.log('Auto-hiding notification after timeout (not marking as read)');
-            closeNotification(card, null, null);
-        }, notificationTimeout);
+        card.autoHideTimeout = setTimeout(() => {
+            if (card.parentElement) {
+                card.remove();
+            }
+            const index = activeNotifications.indexOf(card);
+            if (index > -1) {
+                activeNotifications.splice(index, 1);
+            }
+        }, 5000);
     }
 
     /**
