@@ -119,6 +119,20 @@ trait CrudTrait
     private function getRelationBlockingDelete(Model $record, array $relationsToCheck, array $relationConditions): ?string
     {
         foreach ($relationsToCheck as $relation) {
+            if (str_contains($relation, '.')) {
+                [$relationName, $nestedRelation] = explode('.', $relation, 2);
+                $nestedConditions = $relationConditions[$relation] ?? [];
+                if (
+                    !empty($nestedConditions)
+                    && $record->$relationName()
+                        ->whereHas($nestedRelation, fn($q) => $q->where($nestedConditions))
+                        ->exists()
+                ) {
+                    return $relation;
+                }
+                continue;
+            }
+
             $conditionsOfRelation = $relationConditions[$relation] ?? [];
             if ($record->$relation()->where($conditionsOfRelation)->exists()) {
                 return $relation;
