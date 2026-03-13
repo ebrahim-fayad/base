@@ -45,6 +45,9 @@ class Notification extends DatabaseNotification
 
     public function getAdminUrlAttribute()
     {
+         if (!empty($this->data['url'])) {
+            return $this->data['url'];
+        }
         return match ($this->data['type']) {
 //            NotificationTypeEnum::New_Provider->value =>
 //            route('admin.providers.show', ['id' => $this->data['provider_id']]),
